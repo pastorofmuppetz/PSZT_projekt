@@ -1,4 +1,5 @@
 #include "Meaning.h"
+#include <list>
 class Word
 {
 	private:

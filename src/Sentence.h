@@ -1,5 +1,6 @@
 #include "Word.h"
-
+#include <list>
+#include <string>
 class Sentence{
 	private:
 	std::list<Word> listOfWords_;
