@@ -1,11 +1,11 @@
-enum partOfSpeech { adj, adja, adjc, adjp, adv, burk, depr, ger, conj, comp, num, pact, pant,
-					pcon, ppas, ppron12, ppron3, pred, prep, siebie, subst, verb, brev, interj, qub};
-enum number {sq, pl};
-enum grammarCase {nom, gen, acc, dat, inst, loc, voc};
-enum degree {pos, com, sup};
-enum gender {m1, m2, m3, n1, n2, p1, p2, p3, f};
-enum person {pri, sec, ter};
-enum neagtion {aff, neg};
-enum verbForm {refl, nonrefl, refl_nonrefl};
-enum done {perf, imperf, imperf_perf};
-enum infinitive {inf};
+enum PartOfSpeech { ADJ, ADJA, ADJC, ADJP, ADV, BURK, DEPR, GER, CONJ, COMP, NUM, PACT, PANT,
+					PCON, PPAS, PPRON12, PPRON3, PRED, PREP, SIEBIE, SUBST, VERB, BREV, INTERJ, QUB};
+enum Number {SG, PL};
+enum GrammarCase {NOM, GEN, ACC, DAT, INST, LOC, VOC};
+enum Degree {POS, COM, SUP};
+enum Gender {M1, M2, M3, N1, N2, P1, P2, P3, F};
+enum Person {PRI, SEC, TER};
+enum Negation {AFF, NEG};
+enum VerbForm {REFL, NONREFL, REFL_NONREFL};
+enum Done {PERF, IMPERF, IMPERF_PERF};
+enum Infinitive {INF};

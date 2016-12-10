@@ -4,19 +4,19 @@ using namespace std;
 class Meaning
 {
 	private:
-	partOfSpeech partofspeech_;
-	number number_;
-	grammarCase grammarcase_;
-	degree degree_;
-	gender gender_;
-	person person_;
-	neagtion negation_;
-	verbForm verbform_;
-	done done_;
-	infinitive infinitive_;
+	PartOfSpeech partofspeech_;
+	Number number_;
+	GrammarCase grammarcase_;
+	Degree degree_;
+	Gender gender_;
+	Person person_;
+	Negation negation_;
+	VerbForm verbform_;
+	Done done_;
+	Infinitive infinitive_;
 	public:
-	Meaning(partOfSpeech, number, grammarCase, degree, gender, person, neagtion, verbForm, done, infinitive);
-	partOfSpeech getpartofspeech();
-	bool setpartofspeech(partOfSpeech);
+	Meaning(PartOfSpeech, Number, GrammarCase, Degree, Gender, Person, Negation, VerbForm, Done, Infinitive);
+	PartOfSpeech getPartOfSpeech();
+	bool setPartOfSpeech(PartOfSpeech);
 	//TODO gettery i settery
 };
