@@ -1,0 +1,7 @@
+¯y³a => ¯y³a subst:sg:nom:m1
+wrotna => wrotny adj:sg:nom.voc:f:pos
+to => to conj+qub+subst:sg:acc:n2+subst:sg:nom:n2
+to => ten adj:sg:acc:n1.n2:pos+adj:sg:nom.voc:n1.n2:pos
+wa¿ne => wa¿ny adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos+adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos+adj:sg:acc:n1.n2:pos+adj:sg:nom.voc:n1.n2:pos
+naczynie => naczynie subst:sg:acc:n2+subst:sg:nom:n2+subst:sg:voc:n2
+krwionoœne => krwionoœny adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos+adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos+adj:sg:acc:n1.n2:pos+adj:sg:nom.voc:n1.n2:pos

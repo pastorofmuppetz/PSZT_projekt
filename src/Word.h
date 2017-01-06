@@ -7,10 +7,11 @@ class Word
 	int position_;
 	
 	public:
-	Meaning getMeaning(int i);
+	Word(std::list <Meaning> mean, int pos);
+	Meaning getMeaning(int pos);
 	bool addMeaning(Meaning &m);
-	bool removeMeaning(int i);
+	bool removeMeaning(int pos);
 	int getPosition();
-	bool setPosition(int i);
+	bool setPosition(int pos);
 
 };

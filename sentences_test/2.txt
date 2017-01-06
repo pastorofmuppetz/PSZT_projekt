@@ -1,0 +1,7 @@
+ta => ta qub
+ta => ten adj:sg:nom.voc:f:pos
+sukienka => sukienka subst:sg:nom:f
+sukienka => sukienko subst:pl:acc:n2+subst:pl:nom:n2+subst:pl:voc:n2+subst:sg:gen:n2
+jest => byæ verb:fin:sg:ter:imperf:nonrefl
+droga => droga subst:sg:nom:f
+droga => drogi adj:sg:nom.voc:f:pos

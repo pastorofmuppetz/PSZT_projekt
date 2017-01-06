@@ -1,0 +1,7 @@
+Olek => Olek subst:sg:nom:m1
+Olek => Olka subst:pl:gen:f
+leje => lej subst:pl:acc:m2+subst:pl:acc:m3+subst:pl:nom:m2+subst:pl:nom:m3+subst:pl:voc:m2+subst:pl:voc:m3
+leje => leja subst:pl:acc:f+subst:pl:nom:f+subst:pl:voc:f
+leje => laæ verb:fin:sg:ter:imperf:refl.nonrefl
+do => do prep:gen+subst:pl:acc:n2+subst:pl:dat:n2+subst:pl:gen:n2+subst:pl:inst:n2+subst:pl:loc:n2+subst:pl:nom:n2+subst:pl:voc:n2+subst:sg:acc:n2+subst:sg:dat:n2+subst:sg:gen:n2+subst:sg:inst:n2+subst:sg:loc:n2+subst:sg:nom:n2+subst:sg:voc:n2
+kieliszków => kieliszek subst:pl:gen:m3

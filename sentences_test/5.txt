@@ -1,0 +1,6 @@
+kanapka => kanapka subst:sg:nom:f
+zgni³a => zgni³y adj:sg:nom.voc:f:pos
+zgni³a => zgniæ verb:praet:sg:f:ter:perf:nonrefl
+w => w prep:acc:nwok+prep:loc:nwok
+w => wiek brev:pun
+plecaku => plecak subst:sg:loc:m3+subst:sg:voc:m3
