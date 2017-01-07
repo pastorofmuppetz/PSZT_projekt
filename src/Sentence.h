@@ -4,6 +4,7 @@
 class Sentence{
 	private:
 	std::list<Word> listOfWords_;
+
 	public:
 	Word getWord(int);
 	bool addWord(Word&);
@@ -12,4 +13,6 @@ class Sentence{
 	std::string getSentence(void);
 	std::string getSentenceWithMeanings(void);
 	int compareMeanings(Meaning&, Meaning&);
+	int analyzeTwoWords(int, int, int);
+	int chosenMeanings[100];
 };

@@ -57,3 +57,8 @@ bool Word::setPositionOfChosenMeaning(int pos)
     Word::positionOfChosenMeaning_=pos;
     return 1;
 }
+
+int Word::getNumberOfMeanings()
+{
+    return Word::meanings_.size();
+}

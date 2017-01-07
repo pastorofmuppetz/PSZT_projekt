@@ -19,19 +19,18 @@ int main()
     //Wczytywanie przetworzonego zdania
     readProcessedFile();
 
-    sentenceToBeProcessed->analyze();
+    if (sentenceToBeProcessed->analyze()==-1)
+    {
+        cout<<"We're so sorry, but something went terribly wrong"<<endl;
+        return 0;
 
-    //cout<<"plec ."<<sentenceToBeProcessed->getWord(2).getMeaning(0).getGender().empty()<<"."<<endl;
-    Meaning m1=sentenceToBeProcessed->getWord(0).getMeaning(1);
-    Meaning m2=sentenceToBeProcessed->getWord(1).getMeaning(1);
-    cout<<"matching="<<sentenceToBeProcessed->compareMeanings(m1,m2)<<endl;
+    }
 
     cout<<endl<<sentenceToBeProcessed->getSentence()<<endl;
     cout<<endl<<sentenceToBeProcessed->getSentenceWithMeanings()<<endl;
     writeResultToFile();
 
     cout << endl<<"Thank you for using the service of PKP Intercity." << endl;
-    writeResultToFile();
 
     return 0;
 }
@@ -130,6 +129,7 @@ bool readProcessedFile()
 
     //close file
     processedSentenceFile.close();
+    return 1;
 }
 
 bool writeResultToFile()
@@ -140,7 +140,7 @@ bool writeResultToFile()
     resultFile<<sentenceToBeProcessed->getSentenceWithMeanings();
 
     resultFile.close();
-
+    return 1;
 }
 
 Meaning* isolateMembers(string atributes, string basicForm)
