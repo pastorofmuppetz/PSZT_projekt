@@ -30,6 +30,33 @@ bool Sentence::removeWord(int pos)
 
 bool Sentence::analyze(void)
 {
+    Word currentWord;
+    Word previousWord;
+    Word nextWord;
+    int pos;
+    int chosenPos;
+    std::list<Word>::iterator tempIter;
+    for(std::list<Word>::iterator iter=Sentence::listOfWords_.begin(); iter != Sentence::listOfWords_.end(); ++iter)
+    {
+        currentWord=*iter;
+        pos=currentWord.getPosition();
+        tempIter=iter;
+        tempIter++;
+        //nextWord=*tempIter;
+        /*if (pos>0)
+        {
+            tempIter--;
+            tempIter--;
+            previousWord=*tempIter;
+        }
+        else
+        {
+
+        }*/
+
+    }
+
+
     //TO DO
     return 1;
 }
@@ -68,5 +95,44 @@ std::string Sentence::getSentenceWithMeanings(void)
     }
 
     return sentenceWithMeanings;
+}
+
+int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
+{
+    int matching=0;
+    string atribute1;
+    string atribute2;
+
+    atribute1=m1.getGender();
+    atribute2=m2.getGender();
+    if (atribute1.empty() || atribute2.empty())
+        matching++;
+    else
+    {
+        if (!atribute1.compare(atribute2))
+            matching++;
+    }
+
+    atribute1=m1.getNumber();
+    atribute2=m2.getNumber();
+    if (atribute1.empty() || atribute2.empty())
+        matching++;
+    else
+    {
+        if (!atribute1.compare(atribute2))
+            matching++;
+    }
+
+    atribute1=m1.getGrammarCase();
+    atribute2=m2.getGrammarCase();
+    if (atribute1.empty() || atribute2.empty())
+        matching++;
+    else
+    {
+        if (!atribute1.compare(atribute2))
+            matching++;
+    }
+
+    return matching;
 }
 

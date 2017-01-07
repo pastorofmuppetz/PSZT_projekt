@@ -11,4 +11,5 @@ class Sentence{
 	bool analyze(void);
 	std::string getSentence(void);
 	std::string getSentenceWithMeanings(void);
+	int compareMeanings(Meaning&, Meaning&);
 };
