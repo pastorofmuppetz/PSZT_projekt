@@ -1,8 +1,22 @@
 #include "Word.h"
 
+Word::Word()
+{
+
+};
 Word::Word(std::list <Meaning> mean, int pos){
 	position_ = pos;
 	meanings_ = mean;
+}
+
+string Word::getWord()
+{
+    return Word::word_;
+}
+bool Word::setWord(string word)
+{
+    Word::word_=word;
+    return 1;
 }
 
 Meaning Word::getMeaning(int pos){

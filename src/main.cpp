@@ -6,10 +6,10 @@
 
 using namespace std;
 
-Sentence sentenceToBeProcessed;
+Sentence* sentenceToBeProcessed=new Sentence();
 
 bool readProcessedFile();
-bool isolateMembers(string atributes);
+Meaning* isolateMembers(string atributes);
 
 int main()
 {
@@ -18,30 +18,57 @@ int main()
     //Wczytywanie przetworzonego zdania
     readProcessedFile();
 
-    cout << endl<<"Hello world!" << endl;
+    cout<<endl<<endl<<sentenceToBeProcessed->getSentence()<<endl;
+
+    cout << endl<<"Thank you for using the service of PKP Intercity." << endl;
 
     return 0;
 }
 
 bool readProcessedFile()
 {
-    string previousWord;
+    Word* w=new Word();
+    Meaning m;
+    string previousWord="";
     string currentWord;
-    string info;
     string line;
 
-    int numberOfPluses=0;
     int pos=0;
+    int licznik=0;
+    static int init=1;
 
+    //open file to read from
     ifstream processedSentenceFile;
     processedSentenceFile.open("2.txt");
 
+    //analyzing file line after line
     while (!processedSentenceFile.eof())
     {
         getline(processedSentenceFile,line);
+
+        //isolating word
         int i=line.find(" ");
         currentWord=line.substr(0,i);
+        if (init)
+            w->setWord(currentWord);
 
+        //checking wether it's a new one or only another meaning (creating word or not)
+        if (currentWord.compare(previousWord))
+        {
+            if (!init)
+            {
+                sentenceToBeProcessed->addWord(*w);
+                w=new Word();
+                w->setWord(currentWord);
+                licznik=0;
+            }
+            else
+                init=0;
+        }
+        else
+            licznik++;
+
+        //isolating the valuable part of line
         if (i>=0)
         {
             line=line.substr(i+1);
@@ -56,75 +83,98 @@ bool readProcessedFile()
                 }
             }
         }
+
+        //checking if everything went fine
         i=0;
         if (currentWord.empty()||line.empty())
             return 0;
 
-        /* //zliczanie plusów dzia³ajace
-        while (i>=0 && line.length()>pos)
-        {
-
-            i=line.find("+",pos);
-            if (i>=0)
-                numberOfPluses++;
-            pos=i+1;
-        }
-        */
-
+        //isolating meanings & adding it to list of meanings in the word
         while (i>=0)
         {
             i=line.find("+");
             if (i>=0)
             {
-                isolateMembers(line.substr(0,i));
+                w->addMeaning(*isolateMembers(line.substr(0,i)));
                 line=line.substr(i+1);
-                cout<<endl;
+                licznik++;
             }
             else
-                isolateMembers(line);
+                w->addMeaning(*isolateMembers(line));
         }
+
         cout<<"current word: "<<currentWord<<endl;
+        m=w->getMeaning(licznik);
+        cout<<"part of speech: "<<m.getPartOfSpeech()<<endl;
         cout<<line<<endl<<endl;
         previousWord=currentWord;
-        numberOfPluses=0;
-    }
 
+    }
+    sentenceToBeProcessed->addWord(*w);
+
+    //close file
     processedSentenceFile.close();
 }
 
-bool isolateMembers(string atributes)
+Meaning* isolateMembers(string atributes)
 {
+    Meaning* m = new Meaning();
     int i=0;
     int k=0;
+
+    //isolating members of vital part of the line
     do
     {
         i=atributes.find(":");
         k=atributes.find(".");
+
+        //if . occures, ignoring the info right after it, before :
         if (k<i && k>=0)
             i=k;
+
         for (int j=0; j<sizeof(PartOfSpeech)/sizeof(*PartOfSpeech);j++)
         {
             if (!atributes.substr(0,i).compare(PartOfSpeech[j]))
-            cout<<"Yay, to sie zgadza: "<<PartOfSpeech[j]<<endl;
+            {
+                //cout<<"Yay, to sie zgadza: "<<PartOfSpeech[j]<<endl;
+                m->setPartOfSpeech(PartOfSpeech[j]);
+            }
+
         }
         for (int j=0; j<sizeof(Number)/sizeof(*Number);j++)
         {
             if (!atributes.substr(0,i).compare(Number[j]))
-            cout<<"Yay, to sie zgadza: "<<Number[j]<<endl;
+            {
+                //cout<<"Yay, to sie zgadza: "<<Number[j]<<endl;
+                m->setNumber(Number[j]);
+            }
+
         }
         for (int j=0; j<sizeof(GrammarCase)/sizeof(*GrammarCase);j++)
         {
             if (!atributes.substr(0,i).compare(GrammarCase[j]))
-            cout<<"Yay, to sie zgadza: "<<GrammarCase[j]<<endl;
+            {
+                //cout<<"Yay, to sie zgadza: "<<GrammarCase[j]<<endl;
+                m->setGrammarCase(GrammarCase[j]);
+            }
+
         }
         for (int j=0; j<sizeof(Gender)/sizeof(*Gender);j++)
         {
             if (!atributes.substr(0,i).compare(Gender[j]))
-            cout<<"Yay, to sie zgadza: "<<Gender[j]<<endl;
+            {
+                //cout<<"Yay, to sie zgadza: "<<Gender[j]<<endl;
+                m->setGender(Gender[j]);
+            }
         }
+
+        if (k==i)
+            i=atributes.find(":");
+
 
         atributes=atributes.substr(i+1);
     }
     while (i>=0);
 
+    return m;
 }

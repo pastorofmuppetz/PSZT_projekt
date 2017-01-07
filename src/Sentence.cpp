@@ -1,4 +1,5 @@
 #include "Sentence.h"
+#include <iostream>
 #include <list>
 #include <string>
 
@@ -35,13 +36,21 @@ bool Sentence::analyze(void)
 
 std::string Sentence::getSentence(void)
 {
-    //MOIM ZDANIEM TRZEBA TO ZROBIÆ INACZEJ
-    return "1";
+    Word w;
+    std::string sentence="";
+    for(std::list<Word>::iterator iter=Sentence::listOfWords_.begin(); iter != Sentence::listOfWords_.end(); ++iter)
+    {
+        w=*iter;
+        sentence.append(w.getWord());
+        sentence.append(" ");
+    }
+
+    return sentence;
+
 }
 
 std::string Sentence::getSentenceWithMeanings(void)
 {
-    //MOIM ZDANIEM TRZEBA TO ZROBIÆ INACZEJ
     return "1";
 }
 

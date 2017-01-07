@@ -2,6 +2,12 @@
 #include "Meaning.h"
 using namespace std;
 
+
+Meaning::Meaning()
+{
+
+};
+/*
 Meaning::Meaning(string partOfSpeech, string number, string grammarCase, string degree, string gender, string person, string negation, string verbForm, string done, string infinitive)
 {
     setPartOfSpeech(partOfSpeech);
@@ -14,7 +20,7 @@ Meaning::Meaning(string partOfSpeech, string number, string grammarCase, string 
     setVerbForm(verbForm);
     setDone(done);
     setInfinitive(infinitive);
-}
+}*/
 
 string Meaning::getPartOfSpeech()
 {
