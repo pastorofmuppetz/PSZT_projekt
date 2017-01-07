@@ -1,3 +1,7 @@
+#include <string>
+
+using namespace std;
+
 string PartOfSpeech[]={ "adj", "adja", "adjc", "adjp", "adv", "burk", "depr", "ger", "conj", "comp", "num", "pact", "pant",
 					"pcon", "ppas", "ppron12", "ppron3", "pred", "prep", "siebie", "subst", "verb", "brev", "interj", "qub"};
 string Number[]={"sg", "pl"};

@@ -18,7 +18,7 @@ int main()
     //Wczytywanie przetworzonego zdania
     readProcessedFile();
 
-    cout<<endl<<endl<<sentenceToBeProcessed->getSentence()<<endl;
+    cout<<endl<<sentenceToBeProcessed->getSentence()<<endl;
 
     cout << endl<<"Thank you for using the service of PKP Intercity." << endl;
 
@@ -34,12 +34,12 @@ bool readProcessedFile()
     string line;
 
     int pos=0;
-    int licznik=0;
+    int counter=0;
     static int init=1;
 
     //open file to read from
     ifstream processedSentenceFile;
-    processedSentenceFile.open("2.txt");
+    processedSentenceFile.open("sentences_test/4.txt");
 
     //analyzing file line after line
     while (!processedSentenceFile.eof())
@@ -52,7 +52,7 @@ bool readProcessedFile()
         if (init)
             w->setWord(currentWord);
 
-        //checking wether it's a new one or only another meaning (creating word or not)
+        //checking whether it's a new one or only another meaning (creating word or not)
         if (currentWord.compare(previousWord))
         {
             if (!init)
@@ -60,13 +60,13 @@ bool readProcessedFile()
                 sentenceToBeProcessed->addWord(*w);
                 w=new Word();
                 w->setWord(currentWord);
-                licznik=0;
+                counter=0;
             }
             else
                 init=0;
         }
         else
-            licznik++;
+            counter++;
 
         //isolating the valuable part of line
         if (i>=0)
@@ -97,14 +97,14 @@ bool readProcessedFile()
             {
                 w->addMeaning(*isolateMembers(line.substr(0,i)));
                 line=line.substr(i+1);
-                licznik++;
+                counter++;
             }
             else
                 w->addMeaning(*isolateMembers(line));
         }
 
         cout<<"current word: "<<currentWord<<endl;
-        m=w->getMeaning(licznik);
+        m=w->getMeaning(counter);
         cout<<"part of speech: "<<m.getPartOfSpeech()<<endl;
         cout<<line<<endl<<endl;
         previousWord=currentWord;
