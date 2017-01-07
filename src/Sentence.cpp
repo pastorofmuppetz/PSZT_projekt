@@ -44,13 +44,29 @@ std::string Sentence::getSentence(void)
         sentence.append(w.getWord());
         sentence.append(" ");
     }
-
     return sentence;
-
 }
 
 std::string Sentence::getSentenceWithMeanings(void)
 {
-    return "1";
+    Word w;
+    Meaning m;
+    int countTill;
+    std::string sentenceWithMeanings="";
+    for(std::list<Word>::iterator iter=Sentence::listOfWords_.begin(); iter != Sentence::listOfWords_.end(); ++iter)
+    {
+        w=*iter;
+        if (w.getPositionOfChosenMeaning()>=0)
+            m=w.getMeaning(w.getPositionOfChosenMeaning());
+
+        sentenceWithMeanings.append(w.getWord());
+        sentenceWithMeanings.append(" => ");
+        sentenceWithMeanings.append(m.getBasicForm());
+        sentenceWithMeanings.append(" ");
+        sentenceWithMeanings.append(m.getAll());
+        sentenceWithMeanings.append("\n");
+    }
+
+    return sentenceWithMeanings;
 }
 

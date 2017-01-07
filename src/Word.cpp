@@ -47,3 +47,13 @@ bool Word::setPosition(int pos){
 	position_ = pos;
 	return true;
 }
+
+int Word::getPositionOfChosenMeaning()
+{
+    return Word::positionOfChosenMeaning_;
+}
+bool Word::setPositionOfChosenMeaning(int pos)
+{
+    Word::positionOfChosenMeaning_=pos;
+    return 1;
+}

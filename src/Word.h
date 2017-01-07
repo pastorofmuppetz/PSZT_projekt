@@ -5,17 +5,20 @@ class Word
 	private:
     string word_;
 	std::list <Meaning> meanings_;
+	int positionOfChosenMeaning_;
 	int position_;
 
 	public:
     Word();
-	Word(std::list <Meaning> mean, int pos);
+	Word(std::list <Meaning>, int);
 	string getWord();
 	bool setWord(string);
-	Meaning getMeaning(int pos);
-	bool addMeaning(Meaning &m);
-	bool removeMeaning(int pos);
+	Meaning getMeaning(int );
+	bool addMeaning(Meaning&);
+	bool removeMeaning(int);
 	int getPosition();
-	bool setPosition(int pos);
+	bool setPosition(int);
+	int getPositionOfChosenMeaning();
+	bool setPositionOfChosenMeaning(int);
 
 };

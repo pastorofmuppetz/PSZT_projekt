@@ -9,7 +9,7 @@ using namespace std;
 Sentence* sentenceToBeProcessed=new Sentence();
 
 bool readProcessedFile();
-Meaning* isolateMembers(string atributes);
+Meaning* isolateMembers(string atributes, string basicForm);
 
 int main()
 {
@@ -19,6 +19,7 @@ int main()
     readProcessedFile();
 
     cout<<endl<<sentenceToBeProcessed->getSentence()<<endl;
+    cout<<endl<<sentenceToBeProcessed->getSentenceWithMeanings()<<endl;
 
     cout << endl<<"Thank you for using the service of PKP Intercity." << endl;
 
@@ -32,14 +33,14 @@ bool readProcessedFile()
     string previousWord="";
     string currentWord;
     string line;
+    string basicForm;
 
-    int pos=0;
     int counter=0;
     static int init=1;
 
     //open file to read from
     ifstream processedSentenceFile;
-    processedSentenceFile.open("sentences_test/4.txt");
+    processedSentenceFile.open("sentences_test/2.txt");
 
     //analyzing file line after line
     while (!processedSentenceFile.eof())
@@ -60,6 +61,7 @@ bool readProcessedFile()
                 sentenceToBeProcessed->addWord(*w);
                 w=new Word();
                 w->setWord(currentWord);
+                w->setPositionOfChosenMeaning(0);   //DO USUNIÊCIA PO OGARNIÊCIU FUNKCJI Sentence::analyze();
                 counter=0;
             }
             else
@@ -79,6 +81,7 @@ bool readProcessedFile()
                 i=line.find(" ");
                 if (i>=0)
                 {
+                    basicForm=line.substr(0,i);
                     line=line.substr(i+1);
                 }
             }
@@ -95,12 +98,12 @@ bool readProcessedFile()
             i=line.find("+");
             if (i>=0)
             {
-                w->addMeaning(*isolateMembers(line.substr(0,i)));
+                w->addMeaning(*isolateMembers(line.substr(0,i), basicForm));
                 line=line.substr(i+1);
                 counter++;
             }
             else
-                w->addMeaning(*isolateMembers(line));
+                w->addMeaning(*isolateMembers(line, basicForm));
         }
 
         cout<<"current word: "<<currentWord<<endl;
@@ -116,11 +119,13 @@ bool readProcessedFile()
     processedSentenceFile.close();
 }
 
-Meaning* isolateMembers(string atributes)
+Meaning* isolateMembers(string atributes, string basicForm)
 {
     Meaning* m = new Meaning();
     int i=0;
     int k=0;
+
+    m->setAll(atributes);
 
     //isolating members of vital part of the line
     do
@@ -175,6 +180,8 @@ Meaning* isolateMembers(string atributes)
         atributes=atributes.substr(i+1);
     }
     while (i>=0);
+
+    m->setBasicForm(basicForm);
 
     return m;
 }
