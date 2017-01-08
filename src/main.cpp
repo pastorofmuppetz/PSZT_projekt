@@ -16,6 +16,7 @@ int main()
 {
     system("chcp 1250");
     //tu docelowo wczytywanie czystego zdania i odpalanie morfologika
+
     //Wczytywanie przetworzonego zdania
     readProcessedFile();
 
@@ -23,7 +24,11 @@ int main()
     {
         cout<<"We're so sorry, but something went terribly wrong"<<endl;
         return 0;
-
+    }
+    if (sentenceToBeProcessed->analyze()==0)
+    {
+        cout<<"We're sorry, but it's a single word, not a sentence"<<endl;
+        return 0;
     }
 
     cout<<endl<<sentenceToBeProcessed->getSentence()<<endl;
@@ -49,7 +54,7 @@ bool readProcessedFile()
 
     //open file to read from
     ifstream processedSentenceFile;
-    processedSentenceFile.open("sentences_test/2.txt");
+    processedSentenceFile.open("sentences_test/7.txt");
 
     //analyzing file line after line
     while (!processedSentenceFile.eof())
@@ -196,6 +201,11 @@ Meaning* isolateMembers(string atributes, string basicForm)
                 m->setGender(Gender[j]);
             }
         }
+        if (!atributes.substr(0,i).compare("bedzie"))
+            {
+                //cout<<"Yay, to sie zgadza: "<<Gender[j]<<endl;
+                m->setFuture("bedzie");
+            }
 
         if (k==i)
             i=atributes.find(":");

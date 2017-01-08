@@ -24,21 +24,20 @@ bool Sentence::addWord(Word& word)
 bool Sentence::removeWord(int pos)
 {
     std::list<Word>::iterator iter=Sentence::listOfWords_.begin();
-    for (int i=0;i<pos;i++)
+    for (int i=0; i<pos; i++)
         iter++;
     Sentence::listOfWords_.erase(iter);
     return 1;
 }
 
-bool Sentence::analyze(void)
+int Sentence::analyze(void)
 {
-    Word currentWord;
-    Word nextWord;
+    if (Sentence::listOfWords_.size()<2)
+        return 0;
 
     if (analyzeTwoWords(0,0,0)==-1)
         return -1;
 
-    //TO DO
     return 1;
 }
 
@@ -60,19 +59,25 @@ std::string Sentence::getSentenceWithMeanings(void)
     Word w;
     Meaning m;
     int whichWord=0;
+    //char lol[10];
     std::string sentenceWithMeanings="";
     for(std::list<Word>::iterator iter=Sentence::listOfWords_.begin(); iter != Sentence::listOfWords_.end(); ++iter)
     {
         w=*iter;
         m=w.getMeaning(chosenMeanings[whichWord]);
-
+        cout<<chosenMeanings[whichWord]<<" "; //do wyrzucenia
         sentenceWithMeanings.append(w.getWord());
         sentenceWithMeanings.append(" => ");
         sentenceWithMeanings.append(m.getBasicForm());
         sentenceWithMeanings.append(" ");
         sentenceWithMeanings.append(m.getAll());
+        //sentenceWithMeanings.append("     Chosen meaning: ");
+        //sprintf(lol, "%d", chosenMeanings[whichWord]);
+        //sentenceWithMeanings.append(lol);
         sentenceWithMeanings.append("\n");
         whichWord++;
+
+
     }
 
     return sentenceWithMeanings;
@@ -83,9 +88,27 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
     int matching=0;
     string atribute1;
     string atribute2;
+    string partOfSpeech1=m1.getPartOfSpeech();
+    string partOfSpeech2=m2.getPartOfSpeech();
 
-    if (!(m1.getPartOfSpeech().compare("qub")&&m2.getPartOfSpeech().compare("qub")))
+    if (!(partOfSpeech1.compare("qub")&&partOfSpeech2.compare("qub")))
         return 0;
+
+    if (!(partOfSpeech1.compare("verb")||partOfSpeech2.compare("verb")))
+        return verbVSverb(m1, m2);
+
+    if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("verb")))
+        return substVSverb(m1, m2);
+
+    if (!partOfSpeech2.compare("brev"))
+        return 0;
+
+    if (!partOfSpeech2.compare("interj"))
+        return 0;
+
+    if (!partOfSpeech1.compare("prep"))
+        return prepVSall(m1, m2);
+
 
     atribute1=m1.getGender();
     atribute2=m2.getGender();
@@ -117,7 +140,6 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
             matching++;
     }
 
-
     return matching;
 }
 
@@ -133,7 +155,7 @@ int Sentence::analyzeTwoWords(int wPos1, int mPos1, int mPos2)
     Meaning m1=w1.getMeaning(mPos1);
     Meaning m2=w2.getMeaning(mPos2);
     //cout<<"Inside analyzing for "<<liczba<<" time."<<endl;
-    //cout<<"Word number, Meaning 1, meaning 2: "<<wPos1<<", "<<mPos1<<", "<<mPos2<<endl;
+    cout<<"Word number, Meaning 1, meaning 2: "<<wPos1<<", "<<mPos1<<", "<<mPos2<<endl;
 
     if (compareMeanings(m1,m2)==3)
     {
@@ -141,7 +163,7 @@ int Sentence::analyzeTwoWords(int wPos1, int mPos1, int mPos2)
         w2.setPositionOfChosenMeaning(mPos2);
         chosenMeanings[wPos1]=mPos1;
         chosenMeanings[wPos1+1]=mPos2;
-        //cout<<"Chosen meanings: "<<mPos1<<", "<<mPos2<<endl;
+        cout<<"Chosen meanings: "<<mPos1<<", "<<mPos2<<endl;
 
         if (wPos1+2<lengthOfSentence)
             analyzeTwoWords(wPos1+1, mPos2, 0);
@@ -152,6 +174,16 @@ int Sentence::analyzeTwoWords(int wPos1, int mPos1, int mPos2)
     {
         if (mPos2+1<numberOfMeanings2)
             analyzeTwoWords(wPos1,mPos1,mPos2+1);
+        else if (wPos1-1>=0)
+        {
+            if (mPos1+1<numberOfMeanings1)
+               {
+                   analyzeTwoWords(wPos1-1,chosenMeanings[wPos1-1],mPos1+1);
+               }
+            else
+                return -1;
+
+        }
         else if (mPos1+1<numberOfMeanings1)
             analyzeTwoWords(wPos1,mPos1+1,0);
         else
@@ -159,5 +191,72 @@ int Sentence::analyzeTwoWords(int wPos1, int mPos1, int mPos2)
             return -1;
         }
     }
+    return 1;
 }
 
+int Sentence::verbVSverb(Meaning& m1,  Meaning& m2)
+{
+    if (!m1.getFuture().compare("bedzie"))
+        return 3;
+    else
+        return 0;
+}
+
+int Sentence::substVSverb(Meaning& m1, Meaning& m2)
+{
+    int matching=0;
+    if (!(m2.getBasicForm().compare("byæ") || m1.getGrammarCase().compare("nom")))
+        return 3;
+    else
+    {
+        matching+=compareGenders(m1.getGender(),m2.getGender());
+        matching+=compareNumbers(m1.getNumber(),m2.getNumber());
+        matching+=compareGrammarCases(m1.getGrammarCase(),m2.getGrammarCase());
+    }
+
+    return matching;
+}
+
+int Sentence::prepVSall(Meaning& m1,Meaning& m2)
+{
+    if (compareGrammarCases(m1.getGrammarCase(),m2.getGrammarCase())==1)
+        return 3;
+    else
+        return 0;
+}
+
+int Sentence::compareGenders(string s1, string s2)
+{
+    if (s1.empty() || s2.empty())
+        return 1;
+    else
+    {
+        if (!s1.compare(s2))
+            return 1;
+    }
+    return 0;
+}
+
+int Sentence::compareNumbers(string s1, string s2)
+{
+    if (s1.empty() || s2.empty())
+        return 1;
+    else
+    {
+        if (!s1.compare(s2))
+            return 1;
+    }
+    return 0;
+}
+
+int Sentence::compareGrammarCases(string s1, string s2)
+{
+    if (s1.empty() || s2.empty())
+        return 1;
+    else
+    {
+        if (!s1.compare(s2))
+            return 1;
+    }
+    return 0;
+}
