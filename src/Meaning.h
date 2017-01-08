@@ -20,6 +20,7 @@ class Meaning
 	string verbform_;
 	string done_;
 	string infinitive_;
+	string future_;
 
 	public:
     Meaning();
@@ -59,6 +60,9 @@ class Meaning
 
 	string getInfinitive();
 	bool setInfinitive(string);
+
+	string getFuture();
+	bool setFuture(string);
 };
 
 

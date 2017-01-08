@@ -16,22 +16,26 @@ int main()
 {
     system("chcp 1250");
     //tu docelowo wczytywanie czystego zdania i odpalanie morfologika
+
     //Wczytywanie przetworzonego zdania
     readProcessedFile();
 
-    sentenceToBeProcessed->analyze();
-
-    //cout<<"plec ."<<sentenceToBeProcessed->getWord(2).getMeaning(0).getGender().empty()<<"."<<endl;
-    Meaning m1=sentenceToBeProcessed->getWord(0).getMeaning(1);
-    Meaning m2=sentenceToBeProcessed->getWord(1).getMeaning(1);
-    cout<<"matching="<<sentenceToBeProcessed->compareMeanings(m1,m2)<<endl;
+    if (sentenceToBeProcessed->analyze()==-1)
+    {
+        cout<<"We're so sorry, but something went terribly wrong"<<endl;
+        return 0;
+    }
+    if (sentenceToBeProcessed->analyze()==0)
+    {
+        cout<<"We're sorry, but it's a single word, not a sentence"<<endl;
+        return 0;
+    }
 
     cout<<endl<<sentenceToBeProcessed->getSentence()<<endl;
     cout<<endl<<sentenceToBeProcessed->getSentenceWithMeanings()<<endl;
     writeResultToFile();
 
     cout << endl<<"Thank you for using the service of PKP Intercity." << endl;
-    writeResultToFile();
 
     return 0;
 }
@@ -50,7 +54,7 @@ bool readProcessedFile()
 
     //open file to read from
     ifstream processedSentenceFile;
-    processedSentenceFile.open("sentences_test/2.txt");
+    processedSentenceFile.open("sentences_test/7.txt");
 
     //analyzing file line after line
     while (!processedSentenceFile.eof())
@@ -130,6 +134,7 @@ bool readProcessedFile()
 
     //close file
     processedSentenceFile.close();
+    return 1;
 }
 
 bool writeResultToFile()
@@ -140,7 +145,7 @@ bool writeResultToFile()
     resultFile<<sentenceToBeProcessed->getSentenceWithMeanings();
 
     resultFile.close();
-
+    return 1;
 }
 
 Meaning* isolateMembers(string atributes, string basicForm)
@@ -196,6 +201,11 @@ Meaning* isolateMembers(string atributes, string basicForm)
                 m->setGender(Gender[j]);
             }
         }
+        if (!atributes.substr(0,i).compare("bedzie"))
+            {
+                //cout<<"Yay, to sie zgadza: "<<Gender[j]<<endl;
+                m->setFuture("bedzie");
+            }
 
         if (k==i)
             i=atributes.find(":");

@@ -20,5 +20,6 @@ class Word
 	bool setPosition(int);
 	int getPositionOfChosenMeaning();
 	bool setPositionOfChosenMeaning(int);
+	int getNumberOfMeanings();
 
 };

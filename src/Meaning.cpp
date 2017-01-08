@@ -128,4 +128,14 @@ bool Meaning::setInfinitive(string infinitive)
     return 1;
 }
 
+string Meaning::getFuture()
+{
+    return Meaning::future_;
+}
+bool Meaning::setFuture(string future)
+{
+    Meaning::future_=future;
+    return 1;
+}
+
 
