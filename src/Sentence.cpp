@@ -71,6 +71,8 @@ std::string Sentence::getSentenceWithMeanings(void)
         sentenceWithMeanings.append(m.getBasicForm());
         sentenceWithMeanings.append(" ");
         sentenceWithMeanings.append(m.getAll());
+        sentenceWithMeanings.append(" ");
+        sentenceWithMeanings.append(m.getGender());
         //sentenceWithMeanings.append("     Chosen meaning: ");
         //sprintf(lol, "%d", chosenMeanings[whichWord]);
         //sentenceWithMeanings.append(lol);
@@ -108,6 +110,17 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
 
     if (!partOfSpeech1.compare("prep"))
         return prepVSall(m1, m2);
+
+    if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("adj")))
+        return substVSadj(m1, m2);
+
+    if (!partOfSpeech1.compare("adj"))
+    {
+        int a=adjVSall(m1, m2);
+        cout<<"A="<<a<<endl;
+        return a;
+    }
+
 
 
     atribute1=m1.getGender();
@@ -223,6 +236,28 @@ int Sentence::prepVSall(Meaning& m1,Meaning& m2)
         return 3;
     else
         return 0;
+}
+
+int Sentence::substVSadj(Meaning& m1,Meaning& m2)
+{
+    if (!(m1.getGrammarCase().compare("loc") || m2.getGrammarCase().compare("gen")))
+        return 3;
+    else
+        return 0;
+}
+
+int Sentence::adjVSall(Meaning& m1, Meaning& m2)
+{
+    int matching=0;
+    if(!m2.getPartOfSpeech().compare("verb"))
+        return 0;
+    else
+    {
+        matching+=compareGenders(m1.getGender(),m2.getGender());
+        matching+=compareNumbers(m1.getNumber(),m2.getNumber());
+        matching+=compareGrammarCases(m1.getGrammarCase(),m2.getGrammarCase());
+    }
+    return matching;
 }
 
 int Sentence::compareGenders(string s1, string s2)
