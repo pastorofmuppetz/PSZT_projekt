@@ -113,6 +113,8 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
 
     if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("adj")))
         return substVSadj(m1, m2);
+    if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("subst")))
+        return substVSsubst(m1, m2);
 
     if (!partOfSpeech1.compare("adj"))
     {
@@ -251,13 +253,32 @@ int Sentence::adjVSall(Meaning& m1, Meaning& m2)
     int matching=0;
     if(!m2.getPartOfSpeech().compare("verb"))
         return 0;
-    else
+    else if (!m2.getPartOfSpeech().compare("subst")||!m2.getPartOfSpeech().compare("adj"))
     {
         matching+=compareGenders(m1.getGender(),m2.getGender());
         matching+=compareNumbers(m1.getNumber(),m2.getNumber());
         matching+=compareGrammarCases(m1.getGrammarCase(),m2.getGrammarCase());
     }
     return matching;
+}
+
+int Sentence::substVSsubst(Meaning& m1, Meaning& m2)
+{
+    int matching=0;
+    if(!m2.getGrammarCase().compare("gen"))
+        matching++;
+    else if(!(m1.getGrammarCase().compare("acc")||m2.getGrammarCase().compare("dat")))
+        matching++;
+    else if(!(m1.getGrammarCase().compare("nom")||m2.getGrammarCase().compare("dat")))
+        matching++;
+    else if(!(m1.getGrammarCase().compare("dat")||m2.getGrammarCase().compare("acc")))
+        matching++;
+
+    matching+=compareNumbers(m1.getNumber(),m2.getNumber());
+    matching+=compareGenders(m1.getGender(),m2.getGender());
+
+    return matching;
+
 }
 
 int Sentence::compareGenders(string s1, string s2)
@@ -295,3 +316,5 @@ int Sentence::compareGrammarCases(string s1, string s2)
     }
     return 0;
 }
+
+

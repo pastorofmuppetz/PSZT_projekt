@@ -54,7 +54,7 @@ bool readProcessedFile()
 
     //open file to read from
     ifstream processedSentenceFile;
-    processedSentenceFile.open("sentences_test/7.txt");
+    processedSentenceFile.open("sentences_test/11.txt");
 
     //analyzing file line after line
     while (!processedSentenceFile.eof())

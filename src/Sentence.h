@@ -24,6 +24,7 @@ class Sentence{
 	int prepVSall(Meaning&,Meaning&);
 	int substVSadj(Meaning&,Meaning&);
 	int adjVSall(Meaning&, Meaning&);
+	int substVSsubst(Meaning&, Meaning&);
 
 	int chosenMeanings[100];
 };
