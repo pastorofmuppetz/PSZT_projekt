@@ -113,8 +113,12 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
 
     if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("adj")))
         return substVSadj(m1, m2);
+	
     if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("subst")))
         return substVSsubst(m1, m2);
+	
+	if (!(partOfSpeech1.compare("verb")||partOfSpeech2.compare("subst")))
+        return verbVSsubst(m1, m2);
 
     if (!partOfSpeech1.compare("adj"))
     {
@@ -160,8 +164,8 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
 
 int Sentence::analyzeTwoWords(int wPos1, int mPos1, int mPos2)
 {
-    static int liczba=0;
-    liczba++;
+    static int liczba=1;
+	liczba++;
     int lengthOfSentence=listOfWords_.size();
     Word w1=getWord(wPos1);
     Word w2=getWord(wPos1+1);
@@ -281,6 +285,26 @@ int Sentence::substVSsubst(Meaning& m1, Meaning& m2)
 
 }
 
+int Sentence::verbVSsubst(Meaning& m1, Meaning& m2)
+{
+	int matching=2;
+	if(!m1.getBasicForm().compare("byæ"))
+	{
+		if(!m2.getGrammarCase().compare("nom") || !m2.getGrammarCase().compare("inst"))
+			matching++;
+	}
+	else
+	{
+		if(!m2.getGrammarCase().compare("nom"))
+			return 0;
+		matching++;
+	}
+	
+    //matching+=compareNumbers(m1.getNumber(),m2.getNumber());
+    //matching+=compareGenders(m1.getGender(),m2.getGender());
+	
+	return matching;
+}
 int Sentence::compareGenders(string s1, string s2)
 {
     if (s1.empty() || s2.empty())

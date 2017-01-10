@@ -1,6 +1,4 @@
 #include "Word.h"
-#include <list>
-#include <string>
 class Sentence{
 	private:
 	std::list<Word> listOfWords_;
@@ -25,6 +23,7 @@ class Sentence{
 	int substVSadj(Meaning&,Meaning&);
 	int adjVSall(Meaning&, Meaning&);
 	int substVSsubst(Meaning&, Meaning&);
-
+	int verbVSsubst(Meaning&, Meaning&);
+	
 	int chosenMeanings[100];
 };
