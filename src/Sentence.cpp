@@ -123,6 +123,12 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
 
     if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("adj")))
         return substVSadj(m1, m2);
+	
+    if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("subst")))
+        return substVSsubst(m1, m2);
+	
+	if (!(partOfSpeech1.compare("verb")||partOfSpeech2.compare("subst")))
+        return verbVSsubst(m1, m2);
 
     if (!partOfSpeech1.compare("adj"))
     {
@@ -168,8 +174,8 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
 
 int Sentence::analyzeTwoWords(int wPos1, int mPos1, int mPos2)
 {
-    static int liczba=0;
-    liczba++;
+    static int liczba=1;
+	liczba++;
     int lengthOfSentence=listOfWords_.size();
     Word w1=getWord(wPos1);
     Word w2=getWord(wPos1+1);
@@ -261,7 +267,7 @@ int Sentence::adjVSall(Meaning& m1, Meaning& m2)
     int matching=0;
     if(!m2.getPartOfSpeech().compare("verb"))
         return 0;
-    else
+    else if (!m2.getPartOfSpeech().compare("subst")||!m2.getPartOfSpeech().compare("adj"))
     {
         matching+=compareGenders(m1.getGender(),m2.getGender());
         matching+=compareNumbers(m1.getNumber(),m2.getNumber());
@@ -270,6 +276,45 @@ int Sentence::adjVSall(Meaning& m1, Meaning& m2)
     return matching;
 }
 
+int Sentence::substVSsubst(Meaning& m1, Meaning& m2)
+{
+    int matching=0;
+    if(!m2.getGrammarCase().compare("gen"))
+        matching++;
+    else if(!(m1.getGrammarCase().compare("acc")||m2.getGrammarCase().compare("dat")))
+        matching++;
+    else if(!(m1.getGrammarCase().compare("nom")||m2.getGrammarCase().compare("dat")))
+        matching++;
+    else if(!(m1.getGrammarCase().compare("dat")||m2.getGrammarCase().compare("acc")))
+        matching++;
+
+    matching+=compareNumbers(m1.getNumber(),m2.getNumber());
+    matching+=compareGenders(m1.getGender(),m2.getGender());
+
+    return matching;
+
+}
+
+int Sentence::verbVSsubst(Meaning& m1, Meaning& m2)
+{
+	int matching=2;
+	if(!m1.getBasicForm().compare("byæ"))
+	{
+		if(!m2.getGrammarCase().compare("nom") || !m2.getGrammarCase().compare("inst"))
+			matching++;
+	}
+	else
+	{
+		if(!m2.getGrammarCase().compare("nom"))
+			return 0;
+		matching++;
+	}
+	
+    //matching+=compareNumbers(m1.getNumber(),m2.getNumber());
+    //matching+=compareGenders(m1.getGender(),m2.getGender());
+	
+	return matching;
+}
 int Sentence::compareGenders(string s1, string s2)
 {
     if (s1.empty() || s2.empty())
@@ -307,6 +352,7 @@ int Sentence::compareGrammarCases(string s1, string s2)
 }
 
 
+<<<<<<< HEAD
 bool Sentence::readProcessedFile()
 {
     Word* w=new Word();
@@ -486,3 +532,5 @@ Meaning* Sentence::isolateMembers(string atributes, string basicForm)
 
     return m;
 }
+=======
+>>>>>>> 9f8b8cc174b7d9c43ac67e8609bf2251973878ba

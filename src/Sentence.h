@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #include <iostream>
 #include <fstream>
 #include <cstdlib>
@@ -12,6 +13,9 @@ using namespace std;
 
 
 
+=======
+#include "Word.h"
+>>>>>>> 9f8b8cc174b7d9c43ac67e8609bf2251973878ba
 class Sentence{
 	private:
 	std::list<Word> listOfWords_;
@@ -39,6 +43,8 @@ class Sentence{
 	int prepVSall(Meaning&,Meaning&);
 	int substVSadj(Meaning&,Meaning&);
 	int adjVSall(Meaning&, Meaning&);
-
+	int substVSsubst(Meaning&, Meaning&);
+	int verbVSsubst(Meaning&, Meaning&);
+	
 	int chosenMeanings[100];
 };

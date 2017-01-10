@@ -1,0 +1,6 @@
+d³uga => d³ugi adj:sg:nom.voc:f:pos
+droga => droga subst:sg:nom:f
+droga => drogi adj:sg:nom.voc:f:pos
+prowadzi => prowadziæ verb:fin:sg:ter:imperf:refl.nonrefl
+do => do prep:gen+subst:pl:acc:n2+subst:pl:dat:n2+subst:pl:gen:n2+subst:pl:inst:n2+subst:pl:loc:n2+subst:pl:nom:n2+subst:pl:voc:n2+subst:sg:acc:n2+subst:sg:dat:n2+subst:sg:gen:n2+subst:sg:inst:n2+subst:sg:loc:n2+subst:sg:nom:n2+subst:sg:voc:n2
+lasu => las subst:sg:gen:m3
