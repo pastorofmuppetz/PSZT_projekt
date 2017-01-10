@@ -127,10 +127,10 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
 
     if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("adj")))
         return substVSadj(m1, m2);
-	
+
     if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("subst")))
         return substVSsubst(m1, m2);
-	
+
 	if (!(partOfSpeech1.compare("verb")||partOfSpeech2.compare("subst")))
         return verbVSsubst(m1, m2);
 
@@ -238,7 +238,7 @@ int Sentence::verbVSverb(Meaning& m1,  Meaning& m2)
 int Sentence::substVSverb(Meaning& m1, Meaning& m2)
 {
     int matching=0;
-    if (!(m2.getBasicForm().compare("byæ") || m1.getGrammarCase().compare("nom")))
+    if (!(m2.getBasicForm().compare("byÄ‡") || m1.getGrammarCase().compare("nom")))
         return 3;
     else
     {
@@ -302,7 +302,7 @@ int Sentence::substVSsubst(Meaning& m1, Meaning& m2)
 int Sentence::verbVSsubst(Meaning& m1, Meaning& m2)
 {
 	int matching=2;
-	if(!m1.getBasicForm().compare("byæ"))
+	if(!m1.getBasicForm().compare("byÄ‡"))
 	{
 		if(!m2.getGrammarCase().compare("nom") || !m2.getGrammarCase().compare("inst"))
 			matching++;
@@ -313,10 +313,10 @@ int Sentence::verbVSsubst(Meaning& m1, Meaning& m2)
 			return 0;
 		matching++;
 	}
-	
+
     //matching+=compareNumbers(m1.getNumber(),m2.getNumber());
     //matching+=compareGenders(m1.getGender(),m2.getGender());
-	
+
 	return matching;
 }
 int Sentence::compareGenders(string s1, string s2)
@@ -407,7 +407,7 @@ bool Sentence::readProcessedFile(char* arg)
                 w->setWord(currentWord);
                 w->setPosition(position);
                 position++;
-                w->setPositionOfChosenMeaning(0);   //DO USUNIÊCIA PO OGARNIÊCIU FUNKCJI Sentence::analyze();
+                w->setPositionOfChosenMeaning(0);   //DO USUNIÃŠCIA PO OGARNIÃŠCIU FUNKCJI Sentence::analyze();
             }
             else
                 init=0;
