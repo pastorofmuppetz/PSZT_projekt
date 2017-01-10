@@ -1,6 +1,17 @@
-#include "Word.h"
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
 #include <list>
-#include <string>
+#include <cstdio>
+#include "Word.h"
+//#include "strings.h"
+//#include <string>
+
+using namespace std;
+
+
+
+
 class Sentence{
 	private:
 	std::list<Word> listOfWords_;
@@ -12,6 +23,10 @@ class Sentence{
 	int analyze(void);
 	std::string getSentence(void);
 	std::string getSentenceWithMeanings(void);
+
+	bool readProcessedFile(void);
+	bool writeResultToFile(void);
+	Meaning* isolateMembers(string atributes, string basicForm);
 
 	int compareMeanings(Meaning&, Meaning&);
 	int compareGenders(string, string);
