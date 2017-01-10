@@ -352,7 +352,6 @@ int Sentence::compareGrammarCases(string s1, string s2)
 }
 
 
-<<<<<<< HEAD
 bool Sentence::readProcessedFile()
 {
     Word* w=new Word();
@@ -532,5 +531,4 @@ Meaning* Sentence::isolateMembers(string atributes, string basicForm)
 
     return m;
 }
-=======
->>>>>>> 9f8b8cc174b7d9c43ac67e8609bf2251973878ba
+
