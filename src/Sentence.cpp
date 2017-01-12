@@ -42,11 +42,15 @@ bool Sentence::removeWord(int pos)
 
 int Sentence::analyze(void)
 {
-    if (Sentence::listOfWords_.size()<2)
+    
+
+    if (Sentence::listOfWords_.size()==1)
         return 0;
 
     if (analyzeTwoWords(0,0,0)==-1)
         return -1;
+    if (Sentence::listOfWords_.size()==0)
+        return -2;
 
     return 1;
 }
@@ -352,7 +356,7 @@ int Sentence::compareGrammarCases(string s1, string s2)
 }
 
 
-bool Sentence::readProcessedFile()
+bool Sentence::readProcessedFile(char* arg)
 {
     Word* w=new Word();
     Meaning m;
@@ -366,8 +370,17 @@ bool Sentence::readProcessedFile()
 
     //open file to read from
     ifstream processedSentenceFile;
-    processedSentenceFile.open("sentences_test/1.txt");
+    processedSentenceFile.exceptions(ifstream::failbit);
 
+    try{
+    processedSentenceFile.open(arg);
+    }catch(exception& e)
+    {
+        cerr<<"File does not exist.\nException caught: "<<e.what()<<endl;
+        // return 0;
+    }
+
+    try{
     //analyzing file line after line
     while (!processedSentenceFile.eof())
     {
@@ -446,7 +459,12 @@ bool Sentence::readProcessedFile()
 
     //close  file
     processedSentenceFile.close();
-    return 1;
+    }catch(exception& e)
+    {
+       cerr<<"";
+    }
+    
+    return true;
 }
 
 bool Sentence::writeResultToFile()
