@@ -19,13 +19,14 @@ int main()
 
     //Wczytywanie przetworzonego zdania
     readProcessedFile();
+    int result =sentenceToBeProcessed->analyze();
 
-    if (sentenceToBeProcessed->analyze()==-1)
+    if (result==-1)
     {
         cout<<"We're so sorry, but something went terribly wrong"<<endl;
         return 0;
     }
-    if (sentenceToBeProcessed->analyze()==0)
+    if (result==0)
     {
         cout<<"We're sorry, but it's a single word, not a sentence"<<endl;
         return 0;
