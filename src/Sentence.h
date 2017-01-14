@@ -21,7 +21,7 @@ class Sentence{
 	std::string getSentence(void);
 	std::string getSentenceWithMeanings(void);
 
-	bool readProcessedFile(char*);
+	bool readProcessedFile(void);
 	bool writeResultToFile(void);
 	Meaning* isolateMembers(string atributes, string basicForm);
 
