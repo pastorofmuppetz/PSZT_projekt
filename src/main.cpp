@@ -1,8 +1,16 @@
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
 #include "Sentence.h"
+#include "strings.h"
 
 using namespace std;
 
 Sentence* sentenceToBeProcessed=new Sentence();
+
+bool readProcessedFile();
+bool writeResultToFile();
+Meaning* isolateMembers(string atributes, string basicForm);
 
 int main()
 {
@@ -10,7 +18,7 @@ int main()
     //tu docelowo wczytywanie czystego zdania i odpalanie morfologika
 
     //Wczytywanie przetworzonego zdania
-    sentenceToBeProcessed->readProcessedFile();
+    readProcessedFile();
 
     if (sentenceToBeProcessed->analyze()==-1)
     {
@@ -25,14 +33,11 @@ int main()
 
     cout<<endl<<sentenceToBeProcessed->getSentence()<<endl;
     cout<<endl<<sentenceToBeProcessed->getSentenceWithMeanings()<<endl;
-    sentenceToBeProcessed->writeResultToFile();
+    writeResultToFile();
 
     cout << endl<<"Thank you for using the service of PKP Intercity." << endl;
 
     return 0;
-<<<<<<< HEAD
-}
-=======
 }
 
 bool readProcessedFile()
@@ -49,7 +54,7 @@ bool readProcessedFile()
 
     //open file to read from
     ifstream processedSentenceFile;
-    processedSentenceFile.open("sentences_test/13.txt");
+    processedSentenceFile.open("sentences_test/2.txt");
 
     //analyzing file line after line
     while (!processedSentenceFile.eof())
@@ -214,4 +219,3 @@ Meaning* isolateMembers(string atributes, string basicForm)
 
     return m;
 }
->>>>>>> 9f8b8cc174b7d9c43ac67e8609bf2251973878ba

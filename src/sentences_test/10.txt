@@ -1,5 +1,4 @@
-¿y³a => ¿y³a subst:sg:nom:f
-¿y³a => ¿yæ verb:praet:sg:f:ter:imperf:nonrefl
+¯y³a => ¯y³a subst:sg:nom:m1
 wrotna => wrotny adj:sg:nom.voc:f:pos
 to => to conj+qub+subst:sg:acc:n2+subst:sg:nom:n2
 to => ten adj:sg:acc:n1.n2:pos+adj:sg:nom.voc:n1.n2:pos
