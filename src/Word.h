@@ -1,5 +1,8 @@
 #include "Meaning.h"
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9f8b8cc174b7d9c43ac67e8609bf2251973878ba
 class Word
 {
 	private:
