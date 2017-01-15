@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
         cout<<argv[i]<<endl;
 
     if (argc<2)
-        check=sentenceToBeProcessed->readProcessedFile("morfologik-tools-2.1.0/lib/toAnalyze.txt");
+        check=sentenceToBeProcessed->readProcessedFile((char*)"morfologik-tools-2.1.0/lib/toAnalyze.txt");
     else
         check=sentenceToBeProcessed->readProcessedFile(argv[1]);
 
