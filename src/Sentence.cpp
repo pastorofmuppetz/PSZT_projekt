@@ -380,8 +380,8 @@ bool Sentence::readProcessedFile(char* arg)
         cerr<<"File does not exist.\nException caught: "<<e.what()<<endl;
         // return 0;
     }
-
-    try{
+	processedSentenceFile.exceptions(ifstream::failbit & ifstream::badbit);
+  
     //analyzing file line after line
     while (!processedSentenceFile.eof())
     {
@@ -460,10 +460,7 @@ bool Sentence::readProcessedFile(char* arg)
 
     //close  file
     processedSentenceFile.close();
-    }catch(exception& e)
-    {
-       cerr<<"";
-    }
+    
 
     return true;
 }
