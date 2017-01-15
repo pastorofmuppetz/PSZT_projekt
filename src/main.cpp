@@ -7,6 +7,7 @@ Sentence* sentenceToBeProcessed=new Sentence();
 int main(int argc, char *argv[])
 {
     system("chcp 1250");
+    int check;
     //tu docelowo wczytywanie czystego zdania i odpalanie morfologika
 
     //Wczytywanie przetworzonego zdania
@@ -14,9 +15,15 @@ int main(int argc, char *argv[])
         cout<<argv[i]<<endl;
 
     if (argc<2)
-        sentenceToBeProcessed->readProcessedFile("morfologik-tools-2.1.0/lib/toAnalyze.txt");
+        check=sentenceToBeProcessed->readProcessedFile("morfologik-tools-2.1.0/lib/toAnalyze.txt");
     else
-        sentenceToBeProcessed->readProcessedFile(argv[1]);
+        check=sentenceToBeProcessed->readProcessedFile(argv[1]);
+
+    if (check==false)
+    {
+        cout<<"We're so sorry, but the file does not contain proper Morfologik's output"<<endl;
+        return 0;
+    }
 
     int result=sentenceToBeProcessed->analyze();
 

@@ -381,11 +381,13 @@ bool Sentence::readProcessedFile(char* arg)
         // return 0;
     }
 	processedSentenceFile.exceptions(ifstream::failbit & ifstream::badbit);
-  
+
     //analyzing file line after line
     while (!processedSentenceFile.eof())
     {
         getline(processedSentenceFile,line);
+        if (!(line.find("[not found]")==-1))
+            return false;
 
         //isolating word
         int i=line.find(" ");
@@ -434,7 +436,7 @@ bool Sentence::readProcessedFile(char* arg)
         //checking if everything went fine
         i=0;
         if (currentWord.empty()||line.empty())
-            return 0;
+            return true;
 
         //isolating meanings & adding it to list of meanings in the word
         while (i>=0)
@@ -460,7 +462,7 @@ bool Sentence::readProcessedFile(char* arg)
 
     //close  file
     processedSentenceFile.close();
-    
+
 
     return true;
 }
