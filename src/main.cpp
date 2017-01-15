@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
         cout<<argv[i]<<endl;
 
     if (argc<2)
-        sentenceToBeProcessed->readProcessedFile("sentences_test/2.txt");
+        sentenceToBeProcessed->readProcessedFile("sentences_test/toAnalyze.txt");
     else
         sentenceToBeProcessed->readProcessedFile(argv[1]);
 
