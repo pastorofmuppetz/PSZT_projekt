@@ -38,6 +38,6 @@ class Sentence{
 	int adjVSall(Meaning&, Meaning&);
 	int substVSsubst(Meaning&, Meaning&);
 	int verbVSsubst(Meaning&, Meaning&);
-	
+
 	int chosenMeanings[100];
 };

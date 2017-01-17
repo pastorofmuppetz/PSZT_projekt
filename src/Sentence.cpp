@@ -1,17 +1,18 @@
 #include "Sentence.h"
 
-string PartOfSpeech[]={ "adj", "adja", "adjc", "adjp", "adv", "burk", "depr", "ger", "conj", "comp", "num", "pact", "pant",
-                    "pcon", "ppas", "ppron12", "ppron3", "pred", "prep", "siebie", "subst", "verb", "brev", "interj", "qub"};
-string Number[]={"sg", "pl"};
+string PartOfSpeech[]= { "adj", "adja", "adjc", "adjp", "adv", "burk", "depr", "ger", "conj", "comp", "num", "pact", "pant",
+                         "pcon", "ppas", "ppron12", "ppron3", "pred", "prep", "siebie", "subst", "verb", "brev", "interj", "qub"
+                       };
+string Number[]= {"sg", "pl"};
 
-string GrammarCase[]={"nom", "gen", "acc", "dat", "inst", "loc", "voc"};
-string Degree[]={"pos", "com", "sup"};
-string Gender[]={"m1", "m2", "m3", "n1", "n2", "p1", "p2", "p3", "f"};
-string Person[]={"pri", "sec", "ter"};
-string Negation[]={"aff", "neg"};
-string VerbForm[]={"refl", "nonrefl", "refl_nonrefl"};
-string Done[]={"perf", "imperf", "imperf_perf"};
-string Infinitive[]={"inf"};
+string GrammarCase[]= {"nom", "gen", "acc", "dat", "inst", "loc", "voc"};
+string Degree[]= {"pos", "com", "sup"};
+string Gender[]= {"m1", "m2", "m3", "n1", "n2", "p1", "p2", "p3", "f"};
+string Person[]= {"pri", "sec", "ter"};
+string Negation[]= {"aff", "neg"};
+string VerbForm[]= {"refl", "nonrefl", "refl_nonrefl"};
+string Done[]= {"perf", "imperf", "imperf_perf"};
+string Infinitive[]= {"inf"};
 
 
 Word Sentence::getWord(int pos)
@@ -126,13 +127,16 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
     if (!partOfSpeech1.compare("prep"))
         return prepVSall(m1, m2);
 
+    //if (!partOfSpeech2.compare("prep"))
+      //  return allVSprep(m1, m2);
+
     if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("adj")))
         return substVSadj(m1, m2);
 
     if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("subst")))
         return substVSsubst(m1, m2);
 
-	if (!(partOfSpeech1.compare("verb")||partOfSpeech2.compare("subst")))
+    if (!(partOfSpeech1.compare("verb")||partOfSpeech2.compare("subst")))
         return verbVSsubst(m1, m2);
 
     if (!partOfSpeech1.compare("adj"))
@@ -180,7 +184,7 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
 int Sentence::analyzeTwoWords(int wPos1, int mPos1, int mPos2)
 {
     static int liczba=1;
-	liczba++;
+    liczba++;
     int lengthOfSentence=listOfWords_.size();
     Word w1=getWord(wPos1);
     Word w2=getWord(wPos1+1);
@@ -200,26 +204,36 @@ int Sentence::analyzeTwoWords(int wPos1, int mPos1, int mPos2)
         cout<<"Chosen meanings: "<<mPos1<<", "<<mPos2<<endl;
 
         if (wPos1+2<lengthOfSentence)
-            analyzeTwoWords(wPos1+1, mPos2, 0);
+        {
+            if (analyzeTwoWords(wPos1+1, mPos2, 0)==-1)
+                return -1;
+        }
         else
             return 1;
     }
     else
     {
         if (mPos2+1<numberOfMeanings2)
-            analyzeTwoWords(wPos1,mPos1,mPos2+1);
+        {
+            if (analyzeTwoWords(wPos1,mPos1,mPos2+1)==-1)
+                return -1;
+        }
         else if (wPos1-1>=0)
         {
             if (mPos1+1<numberOfMeanings1)
-               {
-                   analyzeTwoWords(wPos1-1,chosenMeanings[wPos1-1],mPos1+1);
-               }
+            {
+                if (analyzeTwoWords(wPos1-1,chosenMeanings[wPos1-1],mPos1+1)==-1)
+                    return -1;
+            }
             else
                 return -1;
 
         }
         else if (mPos1+1<numberOfMeanings1)
-            analyzeTwoWords(wPos1,mPos1+1,0);
+        {
+            if (analyzeTwoWords(wPos1,mPos1+1,0)==-1)
+                return -1;
+        }
         else
         {
             return -1;
@@ -228,8 +242,11 @@ int Sentence::analyzeTwoWords(int wPos1, int mPos1, int mPos2)
     return 1;
 }
 
+//rule for verb following another verb
+//return 3 - meanings are matching; return 0 - not matching;
 int Sentence::verbVSverb(Meaning& m1,  Meaning& m2)
 {
+    //one verb can follow another only in complex future tense
     if (!m1.getFuture().compare("bedzie"))
         return 3;
     else
@@ -251,13 +268,17 @@ int Sentence::substVSverb(Meaning& m1, Meaning& m2)
     return matching;
 }
 
+//rule for preposition before another words
+//return 3 - meanings are matching; return 0 - not matching;
 int Sentence::prepVSall(Meaning& m1,Meaning& m2)
 {
+    //grammar case of preposition is pointing the grammar case of the word that's following it
     if (compareGrammarCases(m1.getGrammarCase(),m2.getGrammarCase())==1)
         return 3;
     else
         return 0;
 }
+
 
 int Sentence::substVSadj(Meaning& m1,Meaning& m2)
 {
@@ -281,9 +302,13 @@ int Sentence::adjVSall(Meaning& m1, Meaning& m2)
     return matching;
 }
 
+//rule for substantive following another substantive
+//return 3 - meanings are matching; return less than 3 - not matching;
 int Sentence::substVSsubst(Meaning& m1, Meaning& m2)
 {
-    int matching=0;
+    int matching=2;
+
+    //rules for grammar cases consistency
     if(!m2.getGrammarCase().compare("gen"))
         matching++;
     else if(!(m1.getGrammarCase().compare("acc")||m2.getGrammarCase().compare("dat")))
@@ -293,32 +318,32 @@ int Sentence::substVSsubst(Meaning& m1, Meaning& m2)
     else if(!(m1.getGrammarCase().compare("dat")||m2.getGrammarCase().compare("acc")))
         matching++;
 
-    matching+=compareNumbers(m1.getNumber(),m2.getNumber());
-    matching+=compareGenders(m1.getGender(),m2.getGender());
+    //rules for gender and number consistency
+    //matching+=compareNumbers(m1.getNumber(),m2.getNumber());
+    //matching+=compareGenders(m1.getGender(),m2.getGender());
 
     return matching;
-
 }
 
 int Sentence::verbVSsubst(Meaning& m1, Meaning& m2)
 {
-	int matching=2;
-	if(!m1.getBasicForm().compare("być"))
-	{
-		if(!m2.getGrammarCase().compare("nom") || !m2.getGrammarCase().compare("inst"))
-			matching++;
-	}
-	else
-	{
-		if(!m2.getGrammarCase().compare("nom"))
-			return 0;
-		matching++;
-	}
+    int matching=2;
+    if(!m1.getBasicForm().compare("być"))
+    {
+        if(!m2.getGrammarCase().compare("nom") || !m2.getGrammarCase().compare("inst"))
+            matching++;
+    }
+    else
+    {
+        if(!m2.getGrammarCase().compare("nom"))
+            return 0;
+        matching++;
+    }
 
     //matching+=compareNumbers(m1.getNumber(),m2.getNumber());
     //matching+=compareGenders(m1.getGender(),m2.getGender());
 
-	return matching;
+    return matching;
 }
 int Sentence::compareGenders(string s1, string s2)
 {
@@ -373,14 +398,16 @@ bool Sentence::readProcessedFile(char* arg)
     ifstream processedSentenceFile;
     processedSentenceFile.exceptions(ifstream::failbit);
 
-    try{
-    processedSentenceFile.open(arg);
-    }catch(exception& e)
+    try
+    {
+        processedSentenceFile.open(arg);
+    }
+    catch(exception& e)
     {
         cerr<<"File does not exist.\nException caught: "<<e.what()<<endl;
         // return 0;
     }
-	processedSentenceFile.exceptions(ifstream::failbit & ifstream::badbit);
+    processedSentenceFile.exceptions(ifstream::failbit & ifstream::badbit);
 
     //analyzing file line after line
     while (!processedSentenceFile.eof())
@@ -451,7 +478,7 @@ bool Sentence::readProcessedFile(char* arg)
                 w->addMeaning(*isolateMembers(line, basicForm));
         }
 
-       // cout<<"current word: "<<currentWord<<endl;
+        // cout<<"current word: "<<currentWord<<endl;
         //m=w->getMeaning(counter);
         //cout<<"part of speech: "<<m.getPartOfSpeech()<<endl;
         //cout<<line<<endl<<endl;
@@ -532,10 +559,10 @@ Meaning* Sentence::isolateMembers(string atributes, string basicForm)
             }
         }
         if (!atributes.substr(0,i).compare("bedzie"))
-            {
-                //cout<<"Yay, to sie zgadza: "<<Gender[j]<<endl;
-                m->setFuture("bedzie");
-            }
+        {
+            //cout<<"Yay, to sie zgadza: "<<Gender[j]<<endl;
+            m->setFuture("bedzie");
+        }
 
         if (k==i)
             i=atributes.find(":");
