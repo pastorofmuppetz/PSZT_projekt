@@ -8,11 +8,8 @@ int main(int argc, char *argv[])
 {
     system("chcp 1250");
     int check;
-    //tu docelowo wczytywanie czystego zdania i odpalanie morfologika
 
     //Wczytywanie przetworzonego zdania
-    for(int i=0; i<argc; ++i)
-        cout<<argv[i]<<endl;
 
     if (argc<2)
         check=sentenceToBeProcessed->readProcessedFile((char*)"morfologik-tools-2.1.0/lib/toAnalyze.txt");
@@ -21,7 +18,7 @@ int main(int argc, char *argv[])
 
     if (check==false)
     {
-        cout<<"We're so sorry, but the file does not contain proper Morfologik's output"<<endl;
+        cout<<endl<<"We're so sorry, but the file does not contain proper Morfologik's output"<<endl;
         return 0;
     }
 
@@ -29,25 +26,22 @@ int main(int argc, char *argv[])
 
     if (result==-1)
     {
-        cout<<"We're so sorry, but something went terribly wrong"<<endl;
+        cout<<endl<<"We're so sorry, but something went terribly wrong"<<endl;
         return 0;
     }
     if (result==0)
     {
-        cout<<"We're sorry, but it's a single word, not a sentence"<<endl;
-        return 0;
-    }
-    if (result==-2)
-    {
-        cout<<"We're sorry, but none word in file"<<endl;
+        cout<<endl<<"We're sorry, but it's a single word, not a sentence"<<endl;
         return 0;
     }
 
-    cout<<endl<<sentenceToBeProcessed->getSentence()<<endl;
-    cout<<endl<<sentenceToBeProcessed->getSentenceWithMeanings()<<endl;
+    cout<<endl<<"Your sentence is: "<<sentenceToBeProcessed->getSentence()<<endl;
+    cout<<endl<<"Chosen meanings are given below: "<<endl;
+    cout<<sentenceToBeProcessed->getSentenceWithMeanings()<<endl;
     sentenceToBeProcessed->writeResultToFile();
+    cout<<endl<<"You can also check them in file 'results.txt' if you wish."<<endl;
 
-    cout << endl<<"Thank you for using the service of PKP Intercity." << endl;
+    cout<<endl<<endl<<"Thank you for using our program. See you soon!."<<endl;
 
     return 0;
 }

@@ -44,15 +44,11 @@ bool Sentence::removeWord(int pos)
 int Sentence::analyze(void)
 {
 
-
     if (Sentence::listOfWords_.size()==1)
         return 0;
 
     if (analyzeTwoWords(0,0,0)==-1)
         return -1;
-
-    if (Sentence::listOfWords_.size()==0)
-        return -2;
 
     return 1;
 }
@@ -81,7 +77,6 @@ std::string Sentence::getSentenceWithMeanings(void)
     {
         w=*iter;
         m=w.getMeaning(chosenMeanings[whichWord]);
-        cout<<chosenMeanings[whichWord]<<" "; //do wyrzucenia
         sentenceWithMeanings.append(w.getWord());
         sentenceWithMeanings.append(" => ");
         sentenceWithMeanings.append(m.getBasicForm());
@@ -89,9 +84,6 @@ std::string Sentence::getSentenceWithMeanings(void)
         sentenceWithMeanings.append(m.getAll());
         sentenceWithMeanings.append(" ");
         sentenceWithMeanings.append(m.getGender());
-        //sentenceWithMeanings.append("     Chosen meaning: ");
-        //sprintf(lol, "%d", chosenMeanings[whichWord]);
-        //sentenceWithMeanings.append(lol);
         sentenceWithMeanings.append("\n");
         whichWord++;
 
@@ -127,8 +119,11 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
     if (!partOfSpeech1.compare("prep"))
         return prepVSall(m1, m2);
 
-    //if (!partOfSpeech2.compare("prep"))
-      //  return allVSprep(m1, m2);
+    if (!partOfSpeech2.compare("prep"))
+        return allVSprep(m1, m2);
+
+    if (!partOfSpeech1.compare("ger"))
+        return gerVSall(m1, m2);
 
     if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("adj")))
         return substVSadj(m1, m2);
@@ -140,12 +135,7 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
         return verbVSsubst(m1, m2);
 
     if (!partOfSpeech1.compare("adj"))
-    {
-        int a=adjVSall(m1, m2);
-        cout<<"A="<<a<<endl;
-        return a;
-    }
-
+        return adjVSall(m1, m2);
 
 
     atribute1=m1.getGender();
@@ -192,8 +182,6 @@ int Sentence::analyzeTwoWords(int wPos1, int mPos1, int mPos2)
     int numberOfMeanings2=w2.getNumberOfMeanings();
     Meaning m1=w1.getMeaning(mPos1);
     Meaning m2=w2.getMeaning(mPos2);
-    //cout<<"Inside analyzing for "<<liczba<<" time."<<endl;
-    cout<<"Word number, Meaning 1, meaning 2: "<<wPos1<<", "<<mPos1<<", "<<mPos2<<endl;
 
     if (compareMeanings(m1,m2)==3)
     {
@@ -201,7 +189,6 @@ int Sentence::analyzeTwoWords(int wPos1, int mPos1, int mPos2)
         w2.setPositionOfChosenMeaning(mPos2);
         chosenMeanings[wPos1]=mPos1;
         chosenMeanings[wPos1+1]=mPos2;
-        cout<<"Chosen meanings: "<<mPos1<<", "<<mPos2<<endl;
 
         if (wPos1+2<lengthOfSentence)
         {
@@ -279,6 +266,10 @@ int Sentence::prepVSall(Meaning& m1,Meaning& m2)
         return 0;
 }
 
+int Sentence::allVSprep(Meaning& m1, Meaning& m2)
+{
+    return 3;
+}
 
 int Sentence::substVSadj(Meaning& m1,Meaning& m2)
 {
@@ -337,6 +328,8 @@ int Sentence::verbVSsubst(Meaning& m1, Meaning& m2)
     {
         if(!m2.getGrammarCase().compare("nom"))
             return 0;
+        if(!m2.getGrammarCase().compare("voc"))
+            return 0;
         matching++;
     }
 
@@ -345,14 +338,40 @@ int Sentence::verbVSsubst(Meaning& m1, Meaning& m2)
 
     return matching;
 }
+
+int Sentence::gerVSall(Meaning& m1, Meaning& m2)
+{
+    if (!m2.getGrammarCase().compare("nom"))
+        return 0;
+    else
+        return 3;
+}
+
 int Sentence::compareGenders(string s1, string s2)
 {
+    int k=0;
     if (s1.empty() || s2.empty())
         return 1;
     else
     {
-        if (!s1.compare(s2))
-            return 1;
+        k=s1.find(".");
+        if (k>=0)
+        {
+            while (k>=0)
+            {
+                if(s2.find(s1.substr(0,k))!=-1)
+                    return 1;
+                s1=s1.substr(k+1);
+                k=s1.find(".");
+            }
+        }
+        else
+        {
+            if (s2.find(s1)!=-1)
+                return 1;
+        }
+        //if (!s1.compare(s2))
+          //  return 1;
     }
     return 0;
 }
@@ -409,6 +428,8 @@ bool Sentence::readProcessedFile(char* arg)
     }
     processedSentenceFile.exceptions(ifstream::failbit & ifstream::badbit);
 
+    if (processedSentenceFile.peek() == std::ifstream::traits_type::eof())
+        return false;
     //analyzing file line after line
     while (!processedSentenceFile.eof())
     {
@@ -477,11 +498,6 @@ bool Sentence::readProcessedFile(char* arg)
             else
                 w->addMeaning(*isolateMembers(line, basicForm));
         }
-
-        // cout<<"current word: "<<currentWord<<endl;
-        //m=w->getMeaning(counter);
-        //cout<<"part of speech: "<<m.getPartOfSpeech()<<endl;
-        //cout<<line<<endl<<endl;
         previousWord=currentWord;
 
     }
@@ -517,17 +533,11 @@ Meaning* Sentence::isolateMembers(string atributes, string basicForm)
     do
     {
         i=atributes.find(":");
-        k=atributes.find(".");
-
-        //if . occures, ignoring the info right after it, before :
-        if (k<i && k>=0)
-            i=k;
 
         for (int j=0; j<sizeof(PartOfSpeech)/sizeof(*PartOfSpeech); j++)
         {
             if (!atributes.substr(0,i).compare(PartOfSpeech[j]))
             {
-                //cout<<"Yay, to sie zgadza: "<<PartOfSpeech[j]<<endl;
                 m->setPartOfSpeech(PartOfSpeech[j]);
             }
 
@@ -536,7 +546,6 @@ Meaning* Sentence::isolateMembers(string atributes, string basicForm)
         {
             if (!atributes.substr(0,i).compare(Number[j]))
             {
-                //cout<<"Yay, to sie zgadza: "<<Number[j]<<endl;
                 m->setNumber(Number[j]);
             }
 
@@ -545,28 +554,30 @@ Meaning* Sentence::isolateMembers(string atributes, string basicForm)
         {
             if (!atributes.substr(0,i).compare(GrammarCase[j]))
             {
-                //cout<<"Yay, to sie zgadza: "<<GrammarCase[j]<<endl;
                 m->setGrammarCase(GrammarCase[j]);
             }
 
         }
+        int p = 1;
         for (int j=0; j<sizeof(Gender)/sizeof(*Gender); j++)
         {
-            if (!atributes.substr(0,i).compare(Gender[j]))
+            if ((atributes.substr(0,i).find(Gender[j])!=-1) && p)
             {
-                //cout<<"Yay, to sie zgadza: "<<Gender[j]<<endl;
-                m->setGender(Gender[j]);
+                string temp=atributes.substr(0,i);
+                if (temp.find("aff")!=-1 || temp.find("refl")!=-1 || temp.find("perf")!=-1 || temp.find("inf")!=-1 || temp.find("fin")!=-1)
+                {
+                }
+                else
+                {
+                    m->setGender(atributes.substr(0,i));
+                    p = 0;
+                }
             }
         }
         if (!atributes.substr(0,i).compare("bedzie"))
         {
-            //cout<<"Yay, to sie zgadza: "<<Gender[j]<<endl;
             m->setFuture("bedzie");
         }
-
-        if (k==i)
-            i=atributes.find(":");
-
 
         atributes=atributes.substr(i+1);
     }

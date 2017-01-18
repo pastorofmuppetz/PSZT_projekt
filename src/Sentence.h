@@ -34,10 +34,12 @@ class Sentence{
 	int verbVSverb(Meaning&,  Meaning&);
 	int substVSverb(Meaning&, Meaning&);
 	int prepVSall(Meaning&,Meaning&);
+	int allVSprep(Meaning&, Meaning&);
 	int substVSadj(Meaning&,Meaning&);
 	int adjVSall(Meaning&, Meaning&);
 	int substVSsubst(Meaning&, Meaning&);
 	int verbVSsubst(Meaning&, Meaning&);
+    int gerVSall(Meaning&, Meaning&);
 
 	int chosenMeanings[100];
 };
