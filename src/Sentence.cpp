@@ -82,12 +82,8 @@ std::string Sentence::getSentenceWithMeanings(void)
         sentenceWithMeanings.append(m.getBasicForm());
         sentenceWithMeanings.append(" ");
         sentenceWithMeanings.append(m.getAll());
-        sentenceWithMeanings.append(" ");
-        sentenceWithMeanings.append(m.getGender());
         sentenceWithMeanings.append("\n");
         whichWord++;
-
-
     }
 
     return sentenceWithMeanings;
@@ -110,10 +106,13 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
     if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("verb")))
         return substVSverb(m1, m2);
 
-    if (!partOfSpeech2.compare("brev"))
+    if (!partOfSpeech1.compare("brev")||!partOfSpeech2.compare("brev"))
         return 0;
 
-    if (!partOfSpeech2.compare("interj"))
+    if (!partOfSpeech1.compare("interj")||!partOfSpeech2.compare("interj"))
+        return 0;
+
+    if (!partOfSpeech1.compare("adja")||!partOfSpeech2.compare("adja"))
         return 0;
 
     if (!partOfSpeech1.compare("prep"))
@@ -128,13 +127,19 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
     if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("adj")))
         return substVSadj(m1, m2);
 
+    if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("ppas")))
+        return substVSadj(m1, m2);
+
+    if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("pact")))
+        return substVSadj(m1, m2);
+
     if (!(partOfSpeech1.compare("subst")||partOfSpeech2.compare("subst")))
         return substVSsubst(m1, m2);
 
     if (!(partOfSpeech1.compare("verb")||partOfSpeech2.compare("subst")))
         return verbVSsubst(m1, m2);
 
-    if (!partOfSpeech1.compare("adj"))
+    if (!partOfSpeech1.compare("adj")||!partOfSpeech1.compare("ppas")||!partOfSpeech1.compare("pact"))
         return adjVSall(m1, m2);
 
 
@@ -182,14 +187,12 @@ int Sentence::analyzeTwoWords(int wPos1, int mPos1, int mPos2)
     int numberOfMeanings2=w2.getNumberOfMeanings();
     Meaning m1=w1.getMeaning(mPos1);
     Meaning m2=w2.getMeaning(mPos2);
-
     if (compareMeanings(m1,m2)==3)
     {
         w1.setPositionOfChosenMeaning(mPos1);
         w2.setPositionOfChosenMeaning(mPos2);
         chosenMeanings[wPos1]=mPos1;
         chosenMeanings[wPos1+1]=mPos2;
-
         if (wPos1+2<lengthOfSentence)
         {
             if (analyzeTwoWords(wPos1+1, mPos2, 0)==-1)
@@ -243,9 +246,9 @@ int Sentence::verbVSverb(Meaning& m1,  Meaning& m2)
 int Sentence::substVSverb(Meaning& m1, Meaning& m2)
 {
     int matching=0;
-    if (!(m2.getBasicForm().compare("być") || m1.getGrammarCase().compare("nom")))
-        return 3;
-    else
+    //if (!(m2.getBasicForm().compare("być") || m1.getGrammarCase().compare("nom")))
+    //    return 3;
+    //else
     {
         matching+=compareGenders(m1.getGender(),m2.getGender());
         matching+=compareNumbers(m1.getNumber(),m2.getNumber());
@@ -260,10 +263,11 @@ int Sentence::substVSverb(Meaning& m1, Meaning& m2)
 int Sentence::prepVSall(Meaning& m1,Meaning& m2)
 {
     //grammar case of preposition is pointing the grammar case of the word that's following it
+    if (!m2.getPartOfSpeech().compare("verb"))
+        return 0;
     if (compareGrammarCases(m1.getGrammarCase(),m2.getGrammarCase())==1)
         return 3;
-    else
-        return 0;
+    return 0;
 }
 
 int Sentence::allVSprep(Meaning& m1, Meaning& m2)
@@ -273,10 +277,17 @@ int Sentence::allVSprep(Meaning& m1, Meaning& m2)
 
 int Sentence::substVSadj(Meaning& m1,Meaning& m2)
 {
-    if (!(m1.getGrammarCase().compare("loc") || m2.getGrammarCase().compare("gen")))
-        return 3;
-    else
-        return 0;
+    int matching=2;
+
+    if(compareGrammarCases(m2.getGrammarCase(),"gen"))
+        matching++;
+    else if(compareGrammarCases(m1.getGrammarCase(),"acc")&&compareGrammarCases(m2.getGrammarCase(),"dat"))
+        matching++;
+    //else if(!(m1.getGrammarCase().compare("nom")||m2.getGrammarCase().compare("dat")))
+       // matching++;
+    else if(compareGrammarCases(m1.getGrammarCase(),"dat")&&compareGrammarCases(m2.getGrammarCase(),"acc"))
+        matching++;
+    return matching;
 }
 
 int Sentence::adjVSall(Meaning& m1, Meaning& m2)
@@ -284,7 +295,7 @@ int Sentence::adjVSall(Meaning& m1, Meaning& m2)
     int matching=0;
     if(!m2.getPartOfSpeech().compare("verb"))
         return 0;
-    else if (!m2.getPartOfSpeech().compare("subst")||!m2.getPartOfSpeech().compare("adj"))
+    else if (!m2.getPartOfSpeech().compare("subst")||!m2.getPartOfSpeech().compare("adj")||!m2.getPartOfSpeech().compare("ppas")||!m2.getPartOfSpeech().compare("pact"))
     {
         matching+=compareGenders(m1.getGender(),m2.getGender());
         matching+=compareNumbers(m1.getNumber(),m2.getNumber());
@@ -300,13 +311,13 @@ int Sentence::substVSsubst(Meaning& m1, Meaning& m2)
     int matching=2;
 
     //rules for grammar cases consistency
-    if(!m2.getGrammarCase().compare("gen"))
+    if(compareGrammarCases(m2.getGrammarCase(),"gen"))
         matching++;
-    else if(!(m1.getGrammarCase().compare("acc")||m2.getGrammarCase().compare("dat")))
+    else if(compareGrammarCases(m1.getGrammarCase(),"acc")&&compareGrammarCases(m2.getGrammarCase(),"dat"))
         matching++;
-    else if(!(m1.getGrammarCase().compare("nom")||m2.getGrammarCase().compare("dat")))
-        matching++;
-    else if(!(m1.getGrammarCase().compare("dat")||m2.getGrammarCase().compare("acc")))
+    //else if(!(m1.getGrammarCase().compare("nom")||m2.getGrammarCase().compare("dat")))
+       // matching++;
+    else if(compareGrammarCases(m1.getGrammarCase(),"dat")&&compareGrammarCases(m2.getGrammarCase(),"acc"))
         matching++;
 
     //rules for gender and number consistency
@@ -321,14 +332,14 @@ int Sentence::verbVSsubst(Meaning& m1, Meaning& m2)
     int matching=2;
     if(!m1.getBasicForm().compare("być"))
     {
-        if(!m2.getGrammarCase().compare("nom") || !m2.getGrammarCase().compare("inst"))
+        if(compareGrammarCases(m2.getGrammarCase(),"nom")|| compareGrammarCases(m2.getGrammarCase(),"inst"))
             matching++;
     }
     else
     {
-        if(!m2.getGrammarCase().compare("nom"))
+        if(compareGrammarCases(m2.getGrammarCase(),"nom"))
             return 0;
-        if(!m2.getGrammarCase().compare("voc"))
+        if(compareGrammarCases(m2.getGrammarCase(),"voc"))
             return 0;
         matching++;
     }
@@ -341,8 +352,11 @@ int Sentence::verbVSsubst(Meaning& m1, Meaning& m2)
 
 int Sentence::gerVSall(Meaning& m1, Meaning& m2)
 {
-    if (!m2.getGrammarCase().compare("nom"))
+    if (compareGrammarCases(m2.getGrammarCase(),"nom")||compareGrammarCases(m2.getGrammarCase(),"loc"))
+    {
         return 0;
+    }
+
     else
         return 3;
 }
@@ -390,12 +404,27 @@ int Sentence::compareNumbers(string s1, string s2)
 
 int Sentence::compareGrammarCases(string s1, string s2)
 {
+    int k=0;
     if (s1.empty() || s2.empty())
         return 1;
     else
     {
-        if (!s1.compare(s2))
-            return 1;
+        k=s1.find(".");
+        if (k>=0)
+        {
+            while (k>=0)
+            {
+                if(s2.find(s1.substr(0,k))!=-1)
+                    return 1;
+                s1=s1.substr(k+1);
+                k=s1.find(".");
+            }
+        }
+        else
+        {
+            if (s2.find(s1)!=-1)
+                return 1;
+        }
     }
     return 0;
 }
@@ -550,15 +579,17 @@ Meaning* Sentence::isolateMembers(string atributes, string basicForm)
             }
 
         }
+        int p=1;
         for (int j=0; j<sizeof(GrammarCase)/sizeof(*GrammarCase); j++)
         {
-            if (!atributes.substr(0,i).compare(GrammarCase[j]))
+            if (atributes.substr(0,i).find(GrammarCase[j])!=-1 &&p)
             {
-                m->setGrammarCase(GrammarCase[j]);
+                m->setGrammarCase(atributes.substr(0,i));
+                p=0;
             }
 
         }
-        int p = 1;
+        p = 1;
         for (int j=0; j<sizeof(Gender)/sizeof(*Gender); j++)
         {
             if ((atributes.substr(0,i).find(Gender[j])!=-1) && p)

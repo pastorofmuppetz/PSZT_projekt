@@ -27,6 +27,9 @@ int main(int argc, char *argv[])
     if (result==-1)
     {
         cout<<endl<<"We're so sorry, but something went terribly wrong"<<endl;
+        cout<<"There are two possible explanations:"<<endl;
+        cout<<"1. The sentence is not grammatically correct"<<endl;
+        cout<<"2. This program is not as good as its makers thought it was"<<endl;
         return 0;
     }
     if (result==0)
@@ -41,7 +44,7 @@ int main(int argc, char *argv[])
     sentenceToBeProcessed->writeResultToFile();
     cout<<endl<<"You can also check them in file 'results.txt' if you wish."<<endl;
 
-    cout<<endl<<endl<<"Thank you for using our program. See you soon!."<<endl;
+    cout<<endl<<endl<<"Thank you for using our program. See you soon!"<<endl;
 
     return 0;
 }
