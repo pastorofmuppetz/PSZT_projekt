@@ -1,0 +1,5 @@
+¿ul => ¿ul subst:sg:nom:m1
+sêpi => sêpi adj:pl:nom.voc:m1.p1:pos+adj:sg:acc:m3:pos+adj:sg:nom.voc:m1.m2.m3:pos
+sêpi => sêpiæ verb:fin:sg:ter:imperf:refl.nonrefl
+pod => pod prep:acc:nwok+prep:inst:nwok
+sklepem => sklep subst:sg:inst:m3

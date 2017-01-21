@@ -1,0 +1,7 @@
+d³uga => d³ugi adj:sg:nom.voc:f:pos
+droga => droga subst:sg:nom:f
+droga => drogi adj:sg:nom.voc:f:pos
+suknia => suknia subst:sg:nom:f
+wisi => wisieæ verb:fin:sg:ter:imperf:nonrefl
+na => na interj+prep:acc+prep:loc
+wieszaku => wieszak subst:sg:loc:m3+subst:sg:voc:m3

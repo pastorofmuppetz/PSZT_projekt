@@ -1,0 +1,7 @@
+sêpi => sêpi adj:pl:nom.voc:m1.p1:pos+adj:sg:acc:m3:pos+adj:sg:nom.voc:m1.m2.m3:pos
+sêpi => sêpiæ verb:fin:sg:ter:imperf:refl.nonrefl
+dziób => dziób subst:sg:acc:m3+subst:sg:nom:m3
+dziób => dzióbaæ verb:impt:sg:sec:imperf:refl.nonrefl
+wyczu³ => wyczuæ verb:praet:sg:m1.m2.m3:ter:perf:refl.nonrefl
+trupa => trupa subst:sg:nom:f
+trupa => trup subst:sg:acc:m2+subst:sg:gen:m2

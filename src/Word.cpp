@@ -4,9 +4,11 @@ Word::Word()
 {
 
 };
-Word::Word(std::list <Meaning> mean, int pos){
-	position_ = pos;
-	meanings_ = mean;
+
+Word::Word(std::list <Meaning> mean, int pos)
+{
+    position_ = pos;
+    meanings_ = mean;
 }
 
 string Word::getWord()
@@ -19,43 +21,40 @@ bool Word::setWord(string word)
     return 1;
 }
 
-Meaning Word::getMeaning(int pos){
-	std::list<Meaning>::iterator iter=meanings_.begin();
-	for(int i = 0; i < pos; i++)
-		iter++;
-	return *iter;
-}
-
-bool Word::addMeaning(Meaning &m){
-	meanings_.push_back(m);
-	return true;
-}
-
-bool Word::removeMeaning(int pos){
-	std::list<Meaning>::iterator iter=meanings_.begin();
-	for(int i = 0; i < pos; i++)
-		iter++;
-	meanings_.erase(iter);
-	return true;
-}
-
-int Word::getPosition(){
-	return position_;
-}
-
-bool Word::setPosition(int pos){
-	position_ = pos;
-	return true;
-}
-
-int Word::getPositionOfChosenMeaning()
+//geting the meaning of the word of given position
+Meaning Word::getMeaning(int pos)
 {
-    return Word::positionOfChosenMeaning_;
+    std::list<Meaning>::iterator iter=meanings_.begin();
+    for(int i = 0; i < pos; i++)
+        iter++;
+    return *iter;
 }
-bool Word::setPositionOfChosenMeaning(int pos)
+
+//adding a meaning of the word at the end
+bool Word::addMeaning(Meaning &m)
 {
-    Word::positionOfChosenMeaning_=pos;
-    return 1;
+    meanings_.push_back(m);
+    return true;
+}
+
+bool Word::removeMeaning(int pos)
+{
+    std::list<Meaning>::iterator iter=meanings_.begin();
+    for(int i = 0; i < pos; i++)
+        iter++;
+    meanings_.erase(iter);
+    return true;
+}
+
+int Word::getPosition()
+{
+    return position_;
+}
+
+bool Word::setPosition(int pos)
+{
+    position_ = pos;
+    return true;
 }
 
 int Word::getNumberOfMeanings()

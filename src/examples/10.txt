@@ -1,0 +1,6 @@
+¿y³a => ¿y³a subst:sg:nom:f
+¿y³a => ¿yæ verb:praet:sg:f:ter:imperf:nonrefl
+pêk³a => pêkn¹æ verb:praet:sg:f:ter:perf:nonrefl
+umieraj¹cemu => umieraj¹cy adj:sg:dat:m1.m2.m3.n1.n2:pos+subst:sg:dat:m1
+umieraj¹cemu => umieraæ pact:sg:dat:m1.m2.m3.n1.n2:imperf:aff:nonrefl
+cz³owiekowi => cz³owiek subst:sg:dat:m1

@@ -1,0 +1,6 @@
+Pinokio => Pinokio subst:sg:nom:m1
+ma => mieæ verb:fin:sg:ter:imperf:refl.nonrefl
+ma => mój adj:sg:nom.voc:f:pos
+d³ugi => d³ug subst:pl:acc:m3+subst:pl:nom:m3+subst:pl:voc:m3
+d³ugi => d³ugi adj:sg:acc:m3:pos+adj:sg:nom.voc:m1.m2.m3:pos
+nos => nos subst:sg:acc:m3+subst:sg:nom:m3

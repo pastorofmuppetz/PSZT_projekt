@@ -1,0 +1,7 @@
+leje => lej subst:pl:acc:m2+subst:pl:acc:m3+subst:pl:nom:m2+subst:pl:nom:m3+subst:pl:voc:m2+subst:pl:voc:m3
+leje => leja subst:pl:acc:f+subst:pl:nom:f+subst:pl:voc:f
+leje => laæ verb:fin:sg:ter:imperf:refl.nonrefl
+mia³y => mia³ subst:pl:acc:m3+subst:pl:nom:m3+subst:pl:voc:m3
+mia³y => mieæ verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:refl.nonrefl
+ogromne => ogromny adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos+adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos+adj:sg:acc:n1.n2:pos+adj:sg:nom.voc:n1.n2:pos
+rozmiary => rozmiar subst:pl:acc:m3+subst:pl:nom:m3+subst:pl:voc:m3

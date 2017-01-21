@@ -1,0 +1,6 @@
+proste => prosta subst:pl:acc:f+subst:pl:nom:f+subst:pl:voc:f
+proste => prosty adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos+adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos+adj:sg:acc:n1.n2:pos+adj:sg:nom.voc:n1.n2:pos+subst:pl:acc:m2+subst:pl:acc:m3+subst:pl:nom:m2+subst:pl:nom:m3+subst:pl:voc:m2+subst:pl:voc:m3
+zdania => zdanie subst:pl:acc:n2+subst:pl:nom:n2+subst:pl:voc:n2+subst:sg:gen:n2
+zdania => zdaæ ger:sg:gen:n2:perf:aff:refl.nonrefl
+bywaj¹ => bywaæ verb:fin:pl:ter:imperf:nonrefl
+trudne => trudny adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos+adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos+adj:sg:acc:n1.n2:pos+adj:sg:nom.voc:n1.n2:pos

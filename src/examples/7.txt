@@ -1,0 +1,4 @@
+kole¿anki => kole¿anka subst:pl:acc:f+subst:pl:nom:f+subst:pl:voc:f+subst:sg:gen:f
+pi³y => pi³a subst:pl:acc:f+subst:pl:nom:f+subst:pl:voc:f+subst:sg:gen:f
+pi³y => piæ verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:refl.nonrefl
+alkohol => alkohol subst:sg:acc:m3+subst:sg:nom:m3
