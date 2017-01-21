@@ -1,7 +1,8 @@
-mój => mój adj:sg:acc:m3:pos+adj:sg:nom.voc:m1.m2.m3:pos+subst:sg:nom:m1+subst:sg:voc:m1
+mÃ³j => mÃ³j adj:sg:acc:m3:pos+adj:sg:nom.voc:m1.m2.m3:pos+subst:sg:nom:m1+subst:sg:voc:m1
 wujek => wujek subst:sg:nom:m1
 sprzedaje => sprzedaj subst:pl:acc:f+subst:pl:nom:f+subst:pl:voc:f
-sprzedaje => sprzedawaæ verb:fin:sg:ter:imperf:refl.nonrefl
-pi³y => piæ verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:refl.nonrefl
-pi³y => pi³a subst:pl:acc:f+subst:pl:nom:f+subst:pl:voc:f+subst:sg:gen:f
+sprzedaje => sprzedawaÄ‡ verb:fin:sg:ter:imperf:refl.nonrefl
+piÅ‚y => piÄ‡ verb:praet:pl:m2.m3.f.n1.n2.p2.p3:ter:imperf:refl.nonrefl
+piÅ‚y => piÅ‚a subst:pl:acc:f+subst:pl:nom:f+subst:pl:voc:f+subst:sg:gen:f
 mechaniczne => mechaniczny adj:pl:acc:m2.m3.f.n1.n2.p2.p3:pos+adj:pl:nom.voc:m2.m3.f.n1.n2.p2.p3:pos+adj:sg:acc:n1.n2:pos+adj:sg:nom.voc:n1.n2:pos
+
