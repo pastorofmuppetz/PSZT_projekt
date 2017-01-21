@@ -8,7 +8,6 @@ class Meaning
 	private:
     string all_;
     string basicForm_;
-
 	string partofspeech_;
 	string number_;
 	string grammarcase_;

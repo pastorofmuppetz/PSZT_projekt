@@ -1,10 +1,10 @@
 #include "Sentence.h"
 
+//tables with possible Morfologik's tags
 string PartOfSpeech[]= { "adj", "adja", "adjc", "adjp", "adv", "burk", "depr", "ger", "conj", "comp", "num", "pact", "pant",
                          "pcon", "ppas", "ppron12", "ppron3", "pred", "prep", "siebie", "subst", "verb", "brev", "interj", "qub"
                        };
 string Number[]= {"sg", "pl"};
-
 string GrammarCase[]= {"nom", "gen", "acc", "dat", "inst", "loc", "voc"};
 string Degree[]= {"pos", "com", "sup"};
 string Gender[]= {"m1", "m2", "m3", "n1", "n2", "p1", "p2", "p3", "f"};
@@ -14,7 +14,7 @@ string VerbForm[]= {"refl", "nonrefl", "refl_nonrefl"};
 string Done[]= {"perf", "imperf", "imperf_perf"};
 string Infinitive[]= {"inf"};
 
-
+//getting word of given position in the sentence
 Word Sentence::getWord(int pos)
 {
     std::list<Word>::iterator iter=Sentence::listOfWords_.begin();
@@ -26,12 +26,14 @@ Word Sentence::getWord(int pos)
     return *iter;
 }
 
+//adding word at the end of the sentence
 bool Sentence::addWord(Word& word)
 {
     Sentence::listOfWords_.push_back(word);
     return 1;
 }
 
+//removing word of given position from the sentence
 bool Sentence::removeWord(int pos)
 {
     std::list<Word>::iterator iter=Sentence::listOfWords_.begin();
@@ -41,18 +43,21 @@ bool Sentence::removeWord(int pos)
     return 1;
 }
 
+//analyzing sentence in order to chose proper meanings of the words
 int Sentence::analyze(void)
 {
-
+    //if there's only one word => nothing to analyze, because it's not a sentence
     if (Sentence::listOfWords_.size()==1)
         return 0;
 
+    //if analyzing ended without the conclusion
     if (analyzeTwoWords(0,0,0)==-1)
         return -1;
 
     return 1;
 }
 
+//returns senstence as string
 std::string Sentence::getSentence(void)
 {
     Word w;
@@ -66,6 +71,7 @@ std::string Sentence::getSentence(void)
     return sentence;
 }
 
+//returns sentence with chosen meanings as string (each word with meaning in new line)
 std::string Sentence::getSentenceWithMeanings(void)
 {
     Word w;
@@ -89,6 +95,7 @@ std::string Sentence::getSentenceWithMeanings(void)
     return sentenceWithMeanings;
 }
 
+//comparing meanings of two neighbouring words
 int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
 {
     int matching=0;
@@ -97,6 +104,7 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
     string partOfSpeech1=m1.getPartOfSpeech();
     string partOfSpeech2=m2.getPartOfSpeech();
 
+    //checking which rule should be applied to given pair of meanings
     if (!(partOfSpeech1.compare("qub")&&partOfSpeech2.compare("qub")))
         return 0;
 
@@ -142,7 +150,7 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
     if (!partOfSpeech1.compare("adj")||!partOfSpeech1.compare("ppas")||!partOfSpeech1.compare("pact"))
         return adjVSall(m1, m2);
 
-
+    //if no rule matches, checking the gender, number and grammar case of the meanings
     atribute1=m1.getGender();
     atribute2=m2.getGender();
     if (atribute1.empty() || atribute2.empty())
@@ -176,6 +184,8 @@ int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
     return matching;
 }
 
+//recursive function for analyzing two neighbouring words with their meanings
+//input: first word position, first word meaning to be analyzed position, second word meaning to be analyzed position
 int Sentence::analyzeTwoWords(int wPos1, int mPos1, int mPos2)
 {
     static int liczba=1;
@@ -189,10 +199,9 @@ int Sentence::analyzeTwoWords(int wPos1, int mPos1, int mPos2)
     Meaning m2=w2.getMeaning(mPos2);
     if (compareMeanings(m1,m2)==3)
     {
-        w1.setPositionOfChosenMeaning(mPos1);
-        w2.setPositionOfChosenMeaning(mPos2);
         chosenMeanings[wPos1]=mPos1;
         chosenMeanings[wPos1+1]=mPos2;
+
         if (wPos1+2<lengthOfSentence)
         {
             if (analyzeTwoWords(wPos1+1, mPos2, 0)==-1)
@@ -243,17 +252,14 @@ int Sentence::verbVSverb(Meaning& m1,  Meaning& m2)
         return 0;
 }
 
+//rule for verb following substantive
+//return 3 - meanings are matching; return 0 - not matching;
 int Sentence::substVSverb(Meaning& m1, Meaning& m2)
 {
     int matching=0;
-    //if (!(m2.getBasicForm().compare("być") || m1.getGrammarCase().compare("nom")))
-    //    return 3;
-    //else
-    {
-        matching+=compareGenders(m1.getGender(),m2.getGender());
-        matching+=compareNumbers(m1.getNumber(),m2.getNumber());
-        matching+=compareGrammarCases(m1.getGrammarCase(),m2.getGrammarCase());
-    }
+    matching+=compareGenders(m1.getGender(),m2.getGender());
+    matching+=compareNumbers(m1.getNumber(),m2.getNumber());
+    matching+=compareGrammarCases(m1.getGrammarCase(),m2.getGrammarCase());
 
     return matching;
 }
@@ -270,11 +276,15 @@ int Sentence::prepVSall(Meaning& m1,Meaning& m2)
     return 0;
 }
 
+//rule for preposition following another word
+//return 3 - it's always matching
 int Sentence::allVSprep(Meaning& m1, Meaning& m2)
 {
     return 3;
 }
 
+//rule for adjective following substantive
+//return 3 - meanings are matching; return 0 - not matching;
 int Sentence::substVSadj(Meaning& m1,Meaning& m2)
 {
     int matching=2;
@@ -283,13 +293,13 @@ int Sentence::substVSadj(Meaning& m1,Meaning& m2)
         matching++;
     else if(compareGrammarCases(m1.getGrammarCase(),"acc")&&compareGrammarCases(m2.getGrammarCase(),"dat"))
         matching++;
-    //else if(!(m1.getGrammarCase().compare("nom")||m2.getGrammarCase().compare("dat")))
-       // matching++;
     else if(compareGrammarCases(m1.getGrammarCase(),"dat")&&compareGrammarCases(m2.getGrammarCase(),"acc"))
         matching++;
     return matching;
 }
 
+//rule for adjective following another word
+//return 3 - meanings are matching; return 0 - not matching;
 int Sentence::adjVSall(Meaning& m1, Meaning& m2)
 {
     int matching=0;
@@ -315,18 +325,15 @@ int Sentence::substVSsubst(Meaning& m1, Meaning& m2)
         matching++;
     else if(compareGrammarCases(m1.getGrammarCase(),"acc")&&compareGrammarCases(m2.getGrammarCase(),"dat"))
         matching++;
-    //else if(!(m1.getGrammarCase().compare("nom")||m2.getGrammarCase().compare("dat")))
-       // matching++;
     else if(compareGrammarCases(m1.getGrammarCase(),"dat")&&compareGrammarCases(m2.getGrammarCase(),"acc"))
         matching++;
-
-    //rules for gender and number consistency
-    //matching+=compareNumbers(m1.getNumber(),m2.getNumber());
-    //matching+=compareGenders(m1.getGender(),m2.getGender());
 
     return matching;
 }
 
+
+//rule for substantive following verb
+//return 3 - meanings are matching; return less than 3 - not matching;
 int Sentence::verbVSsubst(Meaning& m1, Meaning& m2)
 {
     int matching=2;
@@ -344,23 +351,23 @@ int Sentence::verbVSsubst(Meaning& m1, Meaning& m2)
         matching++;
     }
 
-    //matching+=compareNumbers(m1.getNumber(),m2.getNumber());
-    //matching+=compareGenders(m1.getGender(),m2.getGender());
-
     return matching;
 }
 
+//rule for gerand before another word
+//return 3 - meanings are matching; return 0 - not matching;
 int Sentence::gerVSall(Meaning& m1, Meaning& m2)
 {
     if (compareGrammarCases(m2.getGrammarCase(),"nom")||compareGrammarCases(m2.getGrammarCase(),"loc"))
     {
         return 0;
     }
-
     else
         return 3;
 }
 
+//comparing two genders given as strings
+//they can be given as "m1.m2.m3" so we must extract the parts between dots
 int Sentence::compareGenders(string s1, string s2)
 {
     int k=0;
@@ -384,12 +391,11 @@ int Sentence::compareGenders(string s1, string s2)
             if (s2.find(s1)!=-1)
                 return 1;
         }
-        //if (!s1.compare(s2))
-          //  return 1;
     }
     return 0;
 }
 
+//comparing two numbers given as strings
 int Sentence::compareNumbers(string s1, string s2)
 {
     if (s1.empty() || s2.empty())
@@ -402,6 +408,8 @@ int Sentence::compareNumbers(string s1, string s2)
     return 0;
 }
 
+//comparing two grammar cases given as strings
+//they can be given as "nom.voc" so we must extract the parts between dots
 int Sentence::compareGrammarCases(string s1, string s2)
 {
     int k=0;
@@ -429,7 +437,7 @@ int Sentence::compareGrammarCases(string s1, string s2)
     return 0;
 }
 
-
+//reading the sentence from the file
 bool Sentence::readProcessedFile(char* arg)
 {
     Word* w=new Word();
@@ -442,7 +450,7 @@ bool Sentence::readProcessedFile(char* arg)
     int position=0;
     static int init=1;
 
-    //open file to read from
+    //opening file to read from
     ifstream processedSentenceFile;
     processedSentenceFile.exceptions(ifstream::failbit);
 
@@ -453,12 +461,12 @@ bool Sentence::readProcessedFile(char* arg)
     catch(exception& e)
     {
         cerr<<"File does not exist.\nException caught: "<<e.what()<<endl;
-        // return 0;
     }
     processedSentenceFile.exceptions(ifstream::failbit & ifstream::badbit);
 
     if (processedSentenceFile.peek() == std::ifstream::traits_type::eof())
         return false;
+
     //analyzing file line after line
     while (!processedSentenceFile.eof())
     {
@@ -476,7 +484,6 @@ bool Sentence::readProcessedFile(char* arg)
             position++;
         }
 
-
         //checking whether it's a new one or only another meaning (creating word or not)
         if (currentWord.compare(previousWord))
         {
@@ -487,7 +494,6 @@ bool Sentence::readProcessedFile(char* arg)
                 w->setWord(currentWord);
                 w->setPosition(position);
                 position++;
-                w->setPositionOfChosenMeaning(0);   //DO USUNIÊCIA PO OGARNIÊCIU FUNKCJI Sentence::analyze();
             }
             else
                 init=0;
@@ -532,13 +538,14 @@ bool Sentence::readProcessedFile(char* arg)
     }
     this->addWord(*w);
 
-    //close  file
+    //closing  file
     processedSentenceFile.close();
-
 
     return true;
 }
 
+
+//writing results of analyzing to file
 bool Sentence::writeResultToFile()
 {
     ofstream resultFile;
@@ -550,6 +557,7 @@ bool Sentence::writeResultToFile()
     return 1;
 }
 
+//isolating valuable information from line
 Meaning* Sentence::isolateMembers(string atributes, string basicForm)
 {
     Meaning* m = new Meaning();
@@ -569,8 +577,8 @@ Meaning* Sentence::isolateMembers(string atributes, string basicForm)
             {
                 m->setPartOfSpeech(PartOfSpeech[j]);
             }
-
         }
+
         for (int j=0; j<sizeof(Number)/sizeof(*Number); j++)
         {
             if (!atributes.substr(0,i).compare(Number[j]))
@@ -579,6 +587,7 @@ Meaning* Sentence::isolateMembers(string atributes, string basicForm)
             }
 
         }
+
         int p=1;
         for (int j=0; j<sizeof(GrammarCase)/sizeof(*GrammarCase); j++)
         {
@@ -587,8 +596,8 @@ Meaning* Sentence::isolateMembers(string atributes, string basicForm)
                 m->setGrammarCase(atributes.substr(0,i));
                 p=0;
             }
-
         }
+
         p = 1;
         for (int j=0; j<sizeof(Gender)/sizeof(*Gender); j++)
         {
@@ -605,6 +614,7 @@ Meaning* Sentence::isolateMembers(string atributes, string basicForm)
                 }
             }
         }
+
         if (!atributes.substr(0,i).compare("bedzie"))
         {
             m->setFuture("bedzie");

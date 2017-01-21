@@ -5,7 +5,6 @@ class Word
 	private:
     string word_;
 	std::list <Meaning> meanings_;
-	int positionOfChosenMeaning_;
 	int position_;
 
 	public:
@@ -18,8 +17,6 @@ class Word
 	bool removeMeaning(int);
 	int getPosition();
 	bool setPosition(int);
-	int getPositionOfChosenMeaning();
-	bool setPositionOfChosenMeaning(int);
 	int getNumberOfMeanings();
 
 };

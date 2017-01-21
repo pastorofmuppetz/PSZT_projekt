@@ -21,15 +21,18 @@ class Sentence{
 	std::string getSentence(void);
 	std::string getSentenceWithMeanings(void);
 
+    //input-output functions
 	bool readProcessedFile(char*);
 	bool writeResultToFile(void);
 	Meaning* isolateMembers(string atributes, string basicForm);
 
+    //comparing funcions
 	int compareMeanings(Meaning&, Meaning&);
 	int compareGenders(string, string);
 	int compareNumbers(string, string);
 	int compareGrammarCases(string, string);
 
+    //rules
 	int analyzeTwoWords(int, int, int);
 	int verbVSverb(Meaning&,  Meaning&);
 	int substVSverb(Meaning&, Meaning&);

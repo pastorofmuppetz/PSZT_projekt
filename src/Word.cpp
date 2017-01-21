@@ -4,6 +4,7 @@ Word::Word()
 {
 
 };
+
 Word::Word(std::list <Meaning> mean, int pos){
 	position_ = pos;
 	meanings_ = mean;
@@ -19,6 +20,7 @@ bool Word::setWord(string word)
     return 1;
 }
 
+//geting the meaning of the word of given position
 Meaning Word::getMeaning(int pos){
 	std::list<Meaning>::iterator iter=meanings_.begin();
 	for(int i = 0; i < pos; i++)
@@ -26,6 +28,7 @@ Meaning Word::getMeaning(int pos){
 	return *iter;
 }
 
+//adding a meaning of the word at the end
 bool Word::addMeaning(Meaning &m){
 	meanings_.push_back(m);
 	return true;
@@ -46,16 +49,6 @@ int Word::getPosition(){
 bool Word::setPosition(int pos){
 	position_ = pos;
 	return true;
-}
-
-int Word::getPositionOfChosenMeaning()
-{
-    return Word::positionOfChosenMeaning_;
-}
-bool Word::setPositionOfChosenMeaning(int pos)
-{
-    Word::positionOfChosenMeaning_=pos;
-    return 1;
 }
 
 int Word::getNumberOfMeanings()
