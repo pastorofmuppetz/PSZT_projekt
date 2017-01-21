@@ -77,7 +77,6 @@ std::string Sentence::getSentenceWithMeanings(void)
     Word w;
     Meaning m;
     int whichWord=0;
-    //char lol[10];
     std::string sentenceWithMeanings="";
     for(std::list<Word>::iterator iter=Sentence::listOfWords_.begin(); iter != Sentence::listOfWords_.end(); ++iter)
     {
@@ -96,6 +95,7 @@ std::string Sentence::getSentenceWithMeanings(void)
 }
 
 //comparing meanings of two neighbouring words
+//return 3 - meanings are matching; return less than 3 - not matching;
 int Sentence::compareMeanings(Meaning& m1, Meaning& m2)
 {
     int matching=0;
@@ -253,7 +253,7 @@ int Sentence::verbVSverb(Meaning& m1,  Meaning& m2)
 }
 
 //rule for verb following substantive
-//return 3 - meanings are matching; return 0 - not matching;
+//return 3 - meanings are matching; return less than 3 - not matching;
 int Sentence::substVSverb(Meaning& m1, Meaning& m2)
 {
     int matching=0;
@@ -299,7 +299,7 @@ int Sentence::substVSadj(Meaning& m1,Meaning& m2)
 }
 
 //rule for adjective following another word
-//return 3 - meanings are matching; return 0 - not matching;
+//return 3 - meanings are matching; return less than 3 - not matching;
 int Sentence::adjVSall(Meaning& m1, Meaning& m2)
 {
     int matching=0;
