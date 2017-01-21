@@ -1,4 +1,5 @@
 Kinga => Kinga subst:sg:nom:f
 Kinga => King subst:sg:acc:m1+subst:sg:gen:m1
-jest => byæ verb:fin:sg:ter:imperf:nonrefl
+jest => byÄ‡ verb:fin:sg:ter:imperf:nonrefl
 fajna => fajny adj:sg:nom.voc:f:pos
+

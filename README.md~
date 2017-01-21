@@ -7,8 +7,3 @@ Program Analizator znajduje się w src;
 W src->examples znajdują się przykładowe pliki ze zdaniami do analizy;
 
 Przy odpalaniu programu Analizator można podać parametr będący nazwą pliku, który ma zostać przeanalizowany. Np analizator.exe examples\1.txt.
-
-Kompilacja:
-analizator: g++ -o analizator main.cpp Sentence.cpp Word.cpp Meaning.cpp
-
-
